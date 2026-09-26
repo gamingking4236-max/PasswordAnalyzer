@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Password Generator</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #0f172a,
+                    #111827
+                );
+
+            color: #e2e8f0;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+
+            background: rgba(15, 23, 42, 0.95);
+
+            border-bottom:
+                1px solid rgba(148, 163, 184, 0.15);
+
+            padding: 16px 0;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            backdrop-filter: blur(10px);
+
+        }
+
+
+        .nav-container {
+
+            width: 92%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .logo {
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+        }
+
+
+        .logo span {
+
+            color: #38bdf8;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 8px;
+
+        }
+
+
+        .nav-links a {
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            padding: 9px 14px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: 0.25s;
+
+        }
+
+
+        .nav-links a:hover {
+
+            background: #1e293b;
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================== */
+
+        .container {
+
+            width: 92%;
+
+            max-width: 850px;
+
+            margin: 50px auto;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .hero {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .hero-icon {
+
+            font-size: 50px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        h1 {
+
+            margin: 0;
+
+            color: white;
+
+            font-size: 40px;
+
+        }
+
+
+        .subtitle {
+
+            color: #94a3b8;
+
+            font-size: 17px;
+
+            margin-top: 10px;
+
+        }
+
+
+        /* =========================
+           CARD
+        ========================== */
+
+        .card {
+
+            background:
+                rgba(15, 23, 42, 0.90);
+
+            border:
+                1px solid rgba(148, 163, 184, 0.18);
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.35);
+
+        }
+
+
+        .card h2 {
+
+            margin-top: 0;
+
+            color: white;
+
+        }
+
+
+        .description {
+
+            color: #94a3b8;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =========================
+           OPTIONS
+        ========================== */
+
+        .option {
+
+            margin: 18px 0;
+
+        }
+
+
+        label {
+
+            color: #f8fafc;
+
+            font-weight: 600;
+
+        }
+
+
+        input[type="number"] {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 8px;
+
+            background: #020617;
+
+            color: white;
+
+            border: 1px solid #334155;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+
+        input[type="number"]:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px rgba(56, 189, 248, 0.12);
+
+        }
+
+
+        /* =========================
+           CHECKBOXES
+        ========================== */
+
+        .checkbox {
+
+            margin: 15px 0;
+
+            padding: 12px;
+
+            background: #111827;
+
+            border: 1px solid #263449;
+
+            border-radius: 9px;
+
+        }
+
+
+        .checkbox input {
+
+            margin-right: 8px;
+
+        }
+
+
+        .checkbox label {
+
+            font-weight: 500;
+
+            color: #cbd5e1;
+
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 18px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0284c7,
+                    #2563eb
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        button:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.3);
+
+        }
+
+
+        /* =========================
+           DIVIDER
+        ========================== */
+
+        .divider {
+
+            border: 0;
+
+            border-top:
+                1px solid #263449;
+
+            margin: 30px 0;
+
+        }
+
+
+        /* =========================
+           GENERATED PASSWORD
+        ========================== */
+
+        .password-box {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #020617;
+
+            border:
+                1px solid #334155;
+
+            border-radius: 12px;
+
+        }
+
+
+        .generated-password {
+
+            margin-top: 15px;
+
+            background: #111827;
+
+            border:
+                1px solid #334155;
+
+            padding: 17px;
+
+            border-radius: 10px;
+
+            word-break: break-all;
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+            color: #38bdf8;
+
+            text-align: center;
+
+        }
+
+
+        .expiry {
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            background: #111827;
+
+            border-radius: 8px;
+
+            color: #94a3b8;
+
+            text-align: center;
+
+        }
+
+
+        .expiry strong {
+
+            color: #4ade80;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            padding-bottom: 30px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .nav-container {
+
+                flex-direction: column;
+
+                gap: 12px;
+
+            }
+
+
+            .nav-links {
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .container {
+
+                margin: 35px auto;
+
+            }
+
+
+            .card {
+
+                padding: 20px;
+
+            }
+
+
+            h1 {
+
+                font-size: 32px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+
+            <div class="logo">
+
+                🔐 <span>Password</span> Analyzer
+
+            </div>
+
+
+            <div class="nav-links">
+
+                <a href="/">
+                    🏠 Home
+                </a>
+
+                <a href="/generator">
+                    🔑 Generator
+                </a>
+
+                <a href="/history">
+                    📜 History
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <div class="container">
+
+
+        <div class="hero">
+
+            <div class="hero-icon">
+
+                🔑
+
+            </div>
+
+
+            <h1>
+
+                Password Generator
+
+            </h1>
+
+
+            <p class="subtitle">
+
+                Create strong and secure passwords
+
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             PASSWORD GENERATOR
+        ========================== -->
+
+        <div class="card">
+
+
+            <h2>
+
+                🔐 Custom Password Generator
+
+            </h2>
+
+
+            <p class="description">
+
+                Customize the password length and
+                characters you want to include.
+
+            </p>
+
+
+            <form
+                action="/generate-password"
+                method="POST"
+            >
+
+
+                <div class="option">
+
+                    <label for="length">
+
+                        Password Length
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="length"
+                        name="length"
+                        min="8"
+                        max="64"
+                        value="16"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="uppercase"
+                        name="uppercase"
+                        checked
+                    >
+
+                    <label for="uppercase">
+
+                        Include Uppercase Letters (A-Z)
+
+                    </label>
+
+                </div>
+
+
+                <div class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="numbers"
+                        name="numbers"
+                        checked
+                    >
+
+                    <label for="numbers">
+
+                        Include Numbers (0-9)
+
+                    </label>
+
+                </div>
+
+
+                <div class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="symbols"
+                        name="symbols"
+                        checked
+                    >
+
+                    <label for="symbols">
+
+                        Include Special Characters (!@#$)
+
+                    </label>
+
+                </div>
+
+
+                <button type="submit">
+
+                    🔑 Generate Password
+
+                </button>
+
+
+            </form>
+
+
+            {% if generated_password %}
+
+
+            <div class="password-box">
+
+
+                <h2>
+
+                    ✨ Generated Password
+
+                </h2>
+
+
+                <div class="generated-password">
+
+                    {{ generated_password }}
+
+                </div>
+
+
+                {% if expiry_date %}
+
+                <div class="expiry">
+
+                    ⏰ Expires:
+
+                    <strong>
+
+                        {{ expiry_date }}
+
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+                <button
+                    type="button"
+                    onclick="copyPassword()"
+                >
+
+                    📋 Copy Password
+
+                </button>
+
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- =========================
+             PASSPHRASE
+        ========================== -->
+
+        <div class="card">
+
+
+            <h2>
+
+                🧩 Passphrase Generator
+
+            </h2>
+
+
+            <p class="description">
+
+                Generate a memorable passphrase
+                using random words.
+
+            </p>
+
+
+            <form
+                action="/generate-passphrase"
+                method="POST"
+            >
+
+
+                <div class="option">
+
+                    <label for="word_count">
+
+                        Number of Words
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="word_count"
+                        name="word_count"
+                        min="3"
+                        max="8"
+                        value="4"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+
+                    🧩 Generate Passphrase
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+        <div class="footer">
+
+            🔐 Password Analyzer • Secure Password Practices
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        function copyPassword() {
+
+            const password =
+                document.querySelector(
+                    ".generated-password"
+                ).innerText;
+
+
+            navigator.clipboard.writeText(
+                password
+            );
+
+
+            alert(
+                "Password copied to clipboard!"
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
