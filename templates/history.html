@@ -5,16 +5,27 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Password History</title>
 
 
     <style>
 
+        /* =========================
+           RESET
+        ========================= */
+
         * {
             box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: auto;
         }
 
 
@@ -22,36 +33,43 @@
 
             margin: 0;
 
+            padding: 0;
+
             font-family:
                 "Segoe UI",
                 Arial,
                 sans-serif;
 
             background:
-                linear-gradient(
-                    135deg,
-                    #020617,
-                    #0f172a,
-                    #111827
-                );
+                radial-gradient(
+                    circle at top left,
+                    rgba(250, 204, 21, 0.08),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(250, 204, 21, 0.05),
+                    transparent 30%
+                ),
+                #050505;
 
-            color: #e2e8f0;
+            color: #e5e5e5;
 
             min-height: 100vh;
-
         }
 
 
         /* =========================
            NAVBAR
-        ========================== */
+        ========================= */
 
         .navbar {
 
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(5, 5, 5, 0.96);
 
             border-bottom:
-                1px solid rgba(148, 163, 184, 0.15);
+                1px solid
+                rgba(250, 204, 21, 0.22);
 
             padding: 16px 0;
 
@@ -62,7 +80,6 @@
             z-index: 100;
 
             backdrop-filter: blur(10px);
-
         }
 
 
@@ -80,6 +97,7 @@
 
             align-items: center;
 
+            gap: 20px;
         }
 
 
@@ -87,17 +105,17 @@
 
             color: white;
 
-            font-size: 21px;
+            font-size: 22px;
 
-            font-weight: 700;
+            font-weight: 800;
 
+            white-space: nowrap;
         }
 
 
         .logo span {
 
-            color: #38bdf8;
-
+            color: #facc15;
         }
 
 
@@ -106,39 +124,63 @@
             display: flex;
 
             gap: 8px;
-
         }
 
 
         .nav-links a {
 
-            color: #cbd5e1;
+            color: #a3a3a3;
 
             text-decoration: none;
 
-            padding: 9px 14px;
+            padding: 10px 15px;
 
-            border-radius: 8px;
+            border-radius: 9px;
 
-            font-size: 14px;
+            font-size: 15px;
 
-            transition: 0.25s;
-
+            transition:
+                0.25s ease;
         }
 
 
         .nav-links a:hover {
 
-            background: #1e293b;
+            background:
+                rgba(
+                    250,
+                    204,
+                    21,
+                    0.10
+                );
 
-            color: white;
+            color: #facc15;
 
+            transform: translateY(-1px);
+        }
+
+
+        .nav-links a[href="/history"] {
+
+            background: #facc15;
+
+            color: #050505;
+
+            font-weight: 800;
+        }
+
+
+        .nav-links a[href="/history"]:hover {
+
+            background: #fde047;
+
+            color: #050505;
         }
 
 
         /* =========================
            MAIN CONTAINER
-        ========================== */
+        ========================= */
 
         .container {
 
@@ -147,20 +189,18 @@
             max-width: 900px;
 
             margin: 50px auto;
-
         }
 
 
         /* =========================
-           HEADER
-        ========================== */
+           HERO
+        ========================= */
 
         .hero {
 
             text-align: center;
 
             margin-bottom: 35px;
-
         }
 
 
@@ -169,7 +209,6 @@
             font-size: 48px;
 
             margin-bottom: 8px;
-
         }
 
 
@@ -177,81 +216,143 @@
 
             margin: 0;
 
-            color: white;
+            color: #facc15;
 
             font-size: 40px;
 
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
         }
 
 
         .subtitle {
 
-            color: #94a3b8;
+            color: #8f8f8f;
 
             font-size: 16px;
 
             margin-top: 10px;
 
+            line-height: 1.6;
         }
 
 
         /* =========================
-           HISTORY CARD
-        ========================== */
+           HISTORY ITEM
+        ========================= */
 
         .item {
 
-            padding: 22px;
+            padding: 24px;
 
-            margin: 16px 0;
+            margin: 18px 0;
 
             background:
-                rgba(15, 23, 42, 0.90);
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #090909
+                );
 
             border:
-                1px solid rgba(148, 163, 184, 0.18);
+                1px solid
+                rgba(250, 204, 21, 0.22);
 
             border-radius: 16px;
 
             box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.25);
+                0 15px 35px
+                rgba(0, 0, 0, 0.35);
 
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
+
+        .item:hover {
+
+            transform: translateY(-3px);
+
+            border-color:
+                rgba(250, 204, 21, 0.45);
+
+            box-shadow:
+                0 18px 40px
+                rgba(
+                    250,
+                    204,
+                    21,
+                    0.07
+                );
+        }
+
+
+        /* =========================
+           PASSWORD TYPE
+        ========================= */
 
         .type {
 
-            color: white;
+            color: #facc15;
 
-            font-weight: 700;
+            font-weight: 800;
 
-            font-size: 19px;
+            font-size: 20px;
 
-            margin-bottom: 15px;
+            margin-bottom: 16px;
 
+            padding-bottom: 14px;
+
+            border-bottom:
+                1px solid
+                rgba(250, 204, 21, 0.14);
         }
 
+
+        /* =========================
+           DATE
+        ========================= */
 
         .date,
         .expiry {
 
-            color: #94a3b8;
+            color: #a3a3a3;
 
             font-size: 14px;
 
-            margin: 9px 0;
+            margin: 10px 0;
 
+            line-height: 1.6;
+        }
+
+
+        .date strong,
+        .expiry strong {
+
+            color: #e5e5e5;
+        }
+
+
+        .expiry-date {
+
+            color: #d4d4d4;
+
+            word-break: break-word;
         }
 
 
         /* =========================
            STATUS
-        ========================== */
+        ========================= */
 
         .expiry-status {
 
-            margin-top: 12px;
+            margin-top: 14px;
 
+            padding-top: 4px;
         }
 
 
@@ -259,8 +360,30 @@
 
             color: #4ade80;
 
-            font-weight: 700;
+            font-weight: 800;
 
+            padding: 8px 12px;
+
+            display: inline-block;
+
+            background:
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.08
+                );
+
+            border:
+                1px solid
+                rgba(
+                    74,
+                    222,
+                    128,
+                    0.20
+                );
+
+            border-radius: 8px;
         }
 
 
@@ -268,107 +391,164 @@
 
             color: #f87171;
 
-            font-weight: 700;
+            font-weight: 800;
 
+            padding: 8px 12px;
+
+            display: inline-block;
+
+            background:
+                rgba(
+                    248,
+                    113,
+                    113,
+                    0.08
+                );
+
+            border:
+                1px solid
+                rgba(
+                    248,
+                    113,
+                    113,
+                    0.20
+                );
+
+            border-radius: 8px;
         }
 
 
         /* =========================
            SECURITY BOX
-        ========================== */
+        ========================= */
 
         .security {
 
-            margin-top: 18px;
+            margin-top: 20px;
 
-            padding: 15px;
+            padding: 16px;
 
-            background: #020617;
+            background:
+                #080808;
 
             border:
-                1px solid #263449;
+                1px solid
+                rgba(
+                    250,
+                    204,
+                    21,
+                    0.18
+                );
 
             border-radius: 10px;
 
-            color: #94a3b8;
+            color: #8f8f8f;
 
             font-size: 14px;
 
-            line-height: 1.7;
-
+            line-height: 1.8;
         }
 
 
         .security strong {
 
-            color: #cbd5e1;
-
+            color: #facc15;
         }
 
 
         /* =========================
            EMPTY HISTORY
-        ========================== */
+        ========================= */
 
         .empty {
 
             text-align: center;
 
-            padding: 45px 20px;
+            padding: 55px 20px;
 
             background:
-                rgba(15, 23, 42, 0.90);
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #090909
+                );
 
             border:
-                1px solid rgba(148, 163, 184, 0.18);
+                1px solid
+                rgba(
+                    250,
+                    204,
+                    21,
+                    0.20
+                );
 
             border-radius: 16px;
 
-            color: #94a3b8;
-
+            color: #8f8f8f;
         }
 
 
         .empty-icon {
 
-            font-size: 45px;
+            font-size: 48px;
 
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
 
+
+        .empty h2 {
+
+            color: #facc15;
+
+            margin: 0 0 10px;
+
+            font-size: 25px;
+        }
+
+
+        .empty p {
+
+            margin: 0;
+
+            line-height: 1.6;
         }
 
 
         /* =========================
            FOOTER
-        ========================== */
+        ========================= */
 
         .footer {
 
             text-align: center;
 
-            color: #64748b;
+            color: #666;
 
             font-size: 13px;
 
             margin-top: 30px;
 
             padding-bottom: 30px;
-
         }
 
 
         /* =========================
            MOBILE
-        ========================== */
+        ========================= */
 
         @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 14px 0;
+            }
+
 
             .nav-container {
 
                 flex-direction: column;
 
                 gap: 12px;
-
             }
 
 
@@ -377,14 +557,46 @@
                 justify-content: center;
 
                 flex-wrap: wrap;
+            }
 
+
+            .nav-links a {
+
+                font-size: 14px;
+
+                padding: 9px 13px;
             }
 
 
             .container {
 
-                margin: 35px auto;
+                width: 94%;
 
+                margin: 35px auto;
+            }
+
+
+            .hero {
+
+                margin-bottom: 28px;
+            }
+
+
+            .hero-icon {
+
+                font-size: 42px;
+            }
+
+
+            h1 {
+
+                font-size: 32px;
+            }
+
+
+            .subtitle {
+
+                font-size: 14px;
             }
 
 
@@ -392,13 +604,51 @@
 
                 padding: 18px;
 
+                margin: 15px 0;
             }
 
 
+            .type {
+
+                font-size: 18px;
+            }
+
+
+            .security {
+
+                font-size: 13px;
+
+                line-height: 1.7;
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
             h1 {
 
-                font-size: 32px;
+                font-size: 28px;
+            }
 
+
+            .hero-icon {
+
+                font-size: 38px;
+            }
+
+
+            .nav-links {
+
+                gap: 5px;
+            }
+
+
+            .nav-links a {
+
+                padding: 8px 10px;
+
+                font-size: 13px;
             }
 
         }
@@ -413,7 +663,7 @@
 
     <!-- =========================
          NAVBAR
-    ========================== -->
+    ========================= -->
 
     <nav class="navbar">
 
@@ -422,7 +672,9 @@
 
             <div class="logo">
 
-                🔐 <span>Password</span> Analyzer
+                🔐
+                <span>Password</span>
+                Analyzer
 
             </div>
 
@@ -430,23 +682,17 @@
             <div class="nav-links">
 
                 <a href="/">
-
                     🏠 Home
-
                 </a>
 
 
                 <a href="/generator">
-
                     🔑 Generator
-
                 </a>
 
 
                 <a href="/history">
-
                     📜 History
-
                 </a>
 
             </div>
@@ -458,10 +704,12 @@
 
     <!-- =========================
          MAIN
-    ========================== -->
+    ========================= -->
 
     <div class="container">
 
+
+        <!-- HERO -->
 
         <div class="hero">
 
@@ -488,6 +736,10 @@
         </div>
 
 
+        <!-- =========================
+             HISTORY
+        ========================= -->
+
         {% if history %}
 
 
@@ -503,23 +755,28 @@
 
                 <div class="type">
 
+
                     {% if item[2] == "generated" %}
 
                         🔑 Generated Password
+
 
                     {% elif item[2] == "passphrase" %}
 
                         🧩 Passphrase
 
+
                     {% elif item[2] == "analyzed" %}
 
                         🔐 Analyzed Password
+
 
                     {% else %}
 
                         🔐 {{ item[2] }}
 
                     {% endif %}
+
 
                 </div>
 
@@ -530,7 +787,7 @@
 
                 <div class="date">
 
-                    📅 Created:
+                    📅 <strong>Created:</strong>
 
                     {{ item[3] }}
 
@@ -543,9 +800,10 @@
 
                 {% if item[4] %}
 
+
                 <div class="expiry">
 
-                    ⏰ Expires:
+                    ⏰ <strong>Expires:</strong>
 
                     <span class="expiry-date">
 
@@ -562,6 +820,7 @@
 
                 </div>
 
+
                 {% endif %}
 
 
@@ -575,13 +834,15 @@
 
                     <br>
 
-                    🔒 <strong>SHA-256 hashing</strong>
+                    🔒
+                    <strong>SHA-256 hashing</strong>
                     is used for password reuse
                     and duplicate detection.
 
                     <br>
 
-                    🛡️ <strong>Fernet encryption</strong>
+                    🛡️
+                    <strong>Fernet encryption</strong>
                     is used for secure encrypted storage.
 
                     <br>
@@ -601,7 +862,12 @@
         {% else %}
 
 
+            <!-- =========================
+                 EMPTY HISTORY
+            ========================== -->
+
             <div class="empty">
+
 
                 <div class="empty-icon">
 
@@ -624,15 +890,19 @@
 
                 </p>
 
+
             </div>
 
 
         {% endif %}
 
 
+        <!-- FOOTER -->
+
         <div class="footer">
 
-            🔐 Password Analyzer • Secure Password Practices
+            🔐 Password Analyzer
+            • Secure Password Practices
 
         </div>
 
@@ -683,7 +953,16 @@
                     expiryStatuses[index];
 
 
+                if (!statusElement) {
+
+                    return;
+
+                }
+
+
                 if (
+                    !isNaN(expiryDate.getTime())
+                    &&
                     expiryDate < currentDate
                 ) {
 
@@ -700,6 +979,8 @@
 
 
                 }
+
+
                 else {
 
 
@@ -712,6 +993,47 @@
                         </div>
 
                     `;
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           SCROLL POSITION
+        ========================= */
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                const savedScroll =
+                    sessionStorage.getItem(
+                        "passwordHistoryScrollY"
+                    );
+
+
+                if (savedScroll !== null) {
+
+                    requestAnimationFrame(
+                        function () {
+
+                            window.scrollTo(
+                                0,
+                                parseInt(
+                                    savedScroll,
+                                    10
+                                )
+                            );
+
+
+                            sessionStorage.removeItem(
+                                "passwordHistoryScrollY"
+                            );
+
+                        }
+                    );
 
                 }
 

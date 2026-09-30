@@ -1,7 +1,2539 @@
-venv/
-__pycache__/
-*.pyc
-secret.key
-.env
-database/*.db
-data/*.db
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Password Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 8% 5%,
+                    rgba(250, 204, 21, 0.12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 92% 90%,
+                    rgba(250, 204, 21, 0.08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #030303,
+                    #080808,
+                    #111111
+                );
+
+            color: #f5f5f5;
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+
+        /* ==================================================
+           PREMIUM PAGE SYSTEM
+        ================================================== */
+
+        .page-content {
+            width: 100%;
+        }
+
+
+        /*
+            IMPORTANT:
+            No body fade animation.
+            This prevents the blink effect between pages.
+        */
+
+        .hero,
+        .main-card,
+        .result,
+        .footer {
+            animation:
+                smoothEnter
+                0.65s
+                cubic-bezier(.22, .61, .36, 1)
+                both;
+        }
+
+
+        .hero {
+            animation-delay: 0.02s;
+        }
+
+
+        .main-card {
+            animation-delay: 0.08s;
+        }
+
+
+        .result {
+            animation-delay: 0.04s;
+        }
+
+
+        .footer {
+            animation-delay: 0.12s;
+        }
+
+
+        @keyframes smoothEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* ==================================================
+           NAVBAR
+        ================================================== */
+
+        .navbar {
+
+            background:
+                rgba(5, 5, 5, 0.88);
+
+            border-bottom:
+                1px solid
+                rgba(250, 204, 21, 0.20);
+
+            padding:
+                15px 0;
+
+            position:
+                sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 4px 30px
+                rgba(0, 0, 0, 0.45);
+
+        }
+
+
+        .nav-container {
+
+            width: 92%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .logo {
+
+            color:
+                #ffffff;
+
+            font-size:
+                21px;
+
+            font-weight:
+                750;
+
+            letter-spacing:
+                0.3px;
+
+            white-space:
+                nowrap;
+
+            transition:
+                transform
+                0.3s ease;
+
+        }
+
+
+        .logo:hover {
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .logo span {
+
+            color:
+                #facc15;
+
+            text-shadow:
+                0 0 18px
+                rgba(250, 204, 21, 0.20);
+
+        }
+
+
+        .nav-links {
+
+            display:
+                flex;
+
+            gap:
+                7px;
+
+        }
+
+
+        .nav-links a {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            color:
+                #d4d4d4;
+
+            text-decoration:
+                none;
+
+            padding:
+                9px 14px;
+
+            border-radius:
+                9px;
+
+            font-size:
+                14px;
+
+            transition:
+                color 0.25s ease,
+                background 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+        }
+
+
+        .nav-links a::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            left:
+                -100%;
+
+            bottom:
+                0;
+
+            width:
+                100%;
+
+            height:
+                2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #facc15,
+                    transparent
+                );
+
+            transition:
+                left 0.35s ease;
+
+        }
+
+
+        .nav-links a:hover {
+
+            color:
+                #facc15;
+
+            background:
+                rgba(250, 204, 21, 0.09);
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 5px 18px
+                rgba(250, 204, 21, 0.07);
+
+        }
+
+
+        .nav-links a:hover::before {
+
+            left:
+                100%;
+
+        }
+
+
+        .nav-links a:active {
+
+            transform:
+                translateY(1px)
+                scale(0.97);
+
+        }
+
+
+        /* ==================================================
+           MAIN
+        ================================================== */
+
+        .container {
+
+            width:
+                92%;
+
+            max-width:
+                850px;
+
+            margin:
+                55px auto 0;
+
+        }
+
+
+        /* ==================================================
+           HERO
+        ================================================== */
+
+        .hero {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                35px;
+
+        }
+
+
+        .hero-icon {
+
+            font-size:
+                52px;
+
+            margin-bottom:
+                10px;
+
+            display:
+                inline-block;
+
+            filter:
+                drop-shadow(
+                    0 0 15px
+                    rgba(250, 204, 21, 0.35)
+                );
+
+            animation:
+                iconFloat
+                4s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-5px);
+            }
+
+        }
+
+
+        h1 {
+
+            margin:
+                0;
+
+            color:
+                #facc15;
+
+            font-size:
+                42px;
+
+            font-weight:
+                750;
+
+            letter-spacing:
+                -0.5px;
+
+            text-shadow:
+                0 0 25px
+                rgba(250, 204, 21, 0.18);
+
+        }
+
+
+        .subtitle {
+
+            color:
+                #a3a3a3;
+
+            font-size:
+                17px;
+
+            margin-top:
+                12px;
+
+            line-height:
+                1.6;
+
+        }
+
+
+        /* ==================================================
+           MAIN CARD
+        ================================================== */
+
+        .main-card {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(24, 24, 24, 0.96),
+                    rgba(9, 9, 9, 0.98)
+                );
+
+            border:
+                1px solid
+                rgba(250, 204, 21, 0.20);
+
+            border-radius:
+                20px;
+
+            padding:
+                30px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(0, 0, 0, 0.55),
+                0 0 35px
+                rgba(250, 204, 21, 0.04);
+
+            transition:
+                transform 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+
+        }
+
+
+        .main-card::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            top:
+                0;
+
+            left:
+                -100%;
+
+            width:
+                70%;
+
+            height:
+                1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(250, 204, 21, 0.75),
+                    transparent
+                );
+
+            animation:
+                cardShine
+                5s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        @keyframes cardShine {
+
+            0% {
+                left:
+                    -100%;
+            }
+
+            35%,
+            100% {
+                left:
+                    130%;
+            }
+
+        }
+
+
+        .main-card:hover {
+
+            border-color:
+                rgba(250, 204, 21, 0.30);
+
+            box-shadow:
+                0 24px 65px
+                rgba(0, 0, 0, 0.60),
+                0 0 40px
+                rgba(250, 204, 21, 0.06);
+
+        }
+
+
+        /* ==================================================
+           INPUT
+        ================================================== */
+
+        label {
+
+            display:
+                block;
+
+            color:
+                #f5f5f5;
+
+            font-weight:
+                600;
+
+            margin-bottom:
+                9px;
+
+        }
+
+
+        .input-wrapper {
+
+            position:
+                relative;
+
+        }
+
+
+        input[type="password"] {
+
+            width:
+                100%;
+
+            padding:
+                16px;
+
+            background:
+                #050505;
+
+            color:
+                #ffffff;
+
+            border:
+                1px solid
+                #333333;
+
+            border-radius:
+                11px;
+
+            font-size:
+                16px;
+
+            outline:
+                none;
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.25s ease,
+                background 0.3s ease;
+
+        }
+
+
+        input[type="password"]:hover {
+
+            border-color:
+                #555555;
+
+        }
+
+
+        input[type="password"]:focus {
+
+            border-color:
+                #facc15;
+
+            background:
+                #080808;
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(250, 204, 21, 0.10),
+                0 0 25px
+                rgba(250, 204, 21, 0.07);
+
+        }
+
+
+        input::placeholder {
+
+            color:
+                #737373;
+
+            transition:
+                opacity 0.25s ease;
+
+        }
+
+
+        input:focus::placeholder {
+
+            opacity:
+                0.55;
+
+        }
+
+
+        /* ==================================================
+           LIVE ANALYSIS
+           STABLE — NO SHAKE / NO LAYOUT JUMP
+        ================================================== */
+
+        #live-result {
+
+            margin-top:
+                18px;
+
+            padding:
+                18px;
+
+            min-height:
+                158px;
+
+            background:
+                rgba(5, 5, 5, 0.95);
+
+            border:
+                1px solid
+                #292929;
+
+            border-radius:
+                13px;
+
+            box-shadow:
+                inset
+                0 0 20px
+                rgba(0, 0, 0, 0.25);
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+
+        }
+
+
+        #live-result:hover {
+
+            border-color:
+                rgba(250, 204, 21, 0.16);
+
+        }
+
+
+        #live-result strong {
+
+            color:
+                #facc15;
+
+        }
+
+
+        #live-result p {
+
+            color:
+                #d4d4d4;
+
+            margin:
+                9px 0;
+
+        }
+
+
+        /*
+            Only inner content gets a tiny update.
+            Whole live-result does NOT animate.
+        */
+
+        #live-content {
+
+            min-height:
+                110px;
+
+        }
+
+
+        /* ==================================================
+           STRENGTH METER
+        ================================================== */
+
+        .strength-meter {
+
+            width:
+                100%;
+
+            height:
+                10px;
+
+            background:
+                #262626;
+
+            border-radius:
+                20px;
+
+            margin-top:
+                14px;
+
+            overflow:
+                hidden;
+
+        }
+
+
+        .strength-bar {
+
+            height:
+                100%;
+
+            width:
+                0%;
+
+            border-radius:
+                20px;
+
+            transition:
+                width 0.55s
+                cubic-bezier(.22, .61, .36, 1),
+                background 0.35s ease,
+                box-shadow 0.35s ease;
+
+        }
+
+
+        .strength-text {
+
+            font-size:
+                16px;
+
+        }
+
+
+        /* ==================================================
+           ANALYZE BUTTON
+        ================================================== */
+
+        .analyze-button {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            width:
+                100%;
+
+            padding:
+                15px;
+
+            margin-top:
+                18px;
+
+            border:
+                none;
+
+            border-radius:
+                11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #facc15,
+                    #eab308
+                );
+
+            color:
+                #090909;
+
+            font-size:
+                16px;
+
+            font-weight:
+                750;
+
+            cursor:
+                pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.3s ease,
+                filter 0.3s ease;
+
+        }
+
+
+        .analyze-button::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            top:
+                0;
+
+            left:
+                -120%;
+
+            width:
+                70%;
+
+            height:
+                100%;
+
+            transform:
+                skewX(-20deg);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.38),
+                    transparent
+                );
+
+            transition:
+                left 0.55s ease;
+
+        }
+
+
+        .analyze-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            filter:
+                brightness(1.04);
+
+            box-shadow:
+                0 10px 28px
+                rgba(250, 204, 21, 0.25),
+                0 0 20px
+                rgba(250, 204, 21, 0.10);
+
+        }
+
+
+        .analyze-button:hover::before {
+
+            left:
+                140%;
+
+        }
+
+
+        .analyze-button:active {
+
+            transform:
+                translateY(1px)
+                scale(0.985);
+
+            box-shadow:
+                0 4px 12px
+                rgba(250, 204, 21, 0.16);
+
+        }
+
+
+        .analyze-button.loading {
+
+            pointer-events:
+                none;
+
+            opacity:
+                0.82;
+
+        }
+
+
+        .button-spinner {
+
+            display:
+                inline-block;
+
+            width:
+                15px;
+
+            height:
+                15px;
+
+            margin-right:
+                8px;
+
+            vertical-align:
+                -2px;
+
+            border:
+                2px solid
+                rgba(0,0,0,0.25);
+
+            border-top-color:
+                #090909;
+
+            border-radius:
+                50%;
+
+            animation:
+                spin
+                0.7s
+                linear
+                infinite;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+
+        /* ==================================================
+           RESULT SECTION
+        ================================================== */
+
+        #result-container {
+
+            min-height:
+                0;
+
+        }
+
+
+        .result {
+
+            margin-top:
+                25px;
+
+            padding:
+                25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 20, 20, 0.97),
+                    rgba(10, 10, 10, 0.97)
+                );
+
+            border:
+                1px solid
+                rgba(250, 204, 21, 0.20);
+
+            border-radius:
+                18px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.50);
+
+        }
+
+
+        .result.result-updated {
+
+            animation:
+                resultReveal
+                0.55s
+                cubic-bezier(.22, .61, .36, 1)
+                both;
+
+        }
+
+
+        @keyframes resultReveal {
+
+            from {
+                opacity:
+                    0;
+
+                transform:
+                    translateY(12px)
+                    scale(0.992);
+            }
+
+            to {
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        .result h2 {
+
+            margin-top:
+                0;
+
+            color:
+                #facc15;
+
+            font-size:
+                24px;
+
+            text-shadow:
+                0 0 15px
+                rgba(250, 204, 21, 0.12);
+
+        }
+
+
+        /* ==================================================
+           RESULT CARDS
+        ================================================== */
+
+        .info {
+
+            padding:
+                16px;
+
+            margin:
+                12px 0;
+
+            border-radius:
+                11px;
+
+            background:
+                #141414;
+
+            border:
+                1px solid
+                #292929;
+
+            color:
+                #d4d4d4;
+
+            line-height:
+                1.5;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+        }
+
+
+        .info:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(250, 204, 21, 0.25);
+
+            box-shadow:
+                0 8px 22px
+                rgba(0, 0, 0, 0.25),
+                0 0 15px
+                rgba(250, 204, 21, 0.04);
+
+        }
+
+
+        .result-updated .info {
+
+            animation:
+                infoReveal
+                0.45s
+                cubic-bezier(.22, .61, .36, 1)
+                both;
+
+        }
+
+
+        .result-updated .info:nth-child(2) {
+            animation-delay:
+                0.04s;
+        }
+
+
+        .result-updated .info:nth-child(3) {
+            animation-delay:
+                0.08s;
+        }
+
+
+        .result-updated .info:nth-child(4) {
+            animation-delay:
+                0.12s;
+        }
+
+
+        .result-updated .info:nth-child(5) {
+            animation-delay:
+                0.16s;
+        }
+
+
+        .result-updated .info:nth-child(6) {
+            animation-delay:
+                0.20s;
+        }
+
+
+        @keyframes infoReveal {
+
+            from {
+
+                opacity:
+                    0;
+
+                transform:
+                    translateY(7px);
+
+            }
+
+            to {
+
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .info strong {
+
+            color:
+                #facc15;
+
+        }
+
+
+        .info ul {
+
+            margin-bottom:
+                0;
+
+        }
+
+
+        .info li {
+
+            margin:
+                7px 0;
+
+            color:
+                #d4d4d4;
+
+            transition:
+                transform 0.2s ease;
+
+        }
+
+
+        .info li:hover {
+
+            transform:
+                translateX(3px);
+
+        }
+
+
+        /* ==================================================
+           STATUS COLORS
+        ================================================== */
+
+        .breach-safe,
+        .reuse-safe,
+        .expiry-safe {
+
+            color:
+                #4ade80;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .breach-found,
+        .reuse-warning,
+        .common-warning,
+        .expiry-warning {
+
+            color:
+                #f87171;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .breach-error {
+
+            color:
+                #fbbf24;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .expiry-info {
+
+            color:
+                #a3a3a3;
+
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        .footer {
+
+            text-align:
+                center;
+
+            color:
+                #737373;
+
+            font-size:
+                13px;
+
+            margin-top:
+                25px;
+
+            padding-bottom:
+                30px;
+
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding:
+                    13px 0;
+
+            }
+
+
+            .nav-container {
+
+                flex-direction:
+                    column;
+
+                gap:
+                    10px;
+
+            }
+
+
+            .nav-links {
+
+                width:
+                    100%;
+
+                justify-content:
+                    center;
+
+                flex-wrap:
+                    wrap;
+
+            }
+
+
+            .nav-links a {
+
+                padding:
+                    8px 11px;
+
+                font-size:
+                    13px;
+
+            }
+
+
+            .container {
+
+                width:
+                    94%;
+
+                margin:
+                    35px auto 0;
+
+            }
+
+
+            .hero {
+
+                margin-bottom:
+                    25px;
+
+            }
+
+
+            .hero-icon {
+
+                font-size:
+                    44px;
+
+            }
+
+
+            h1 {
+
+                font-size:
+                    31px;
+
+                line-height:
+                    1.2;
+
+            }
+
+
+            .subtitle {
+
+                font-size:
+                    14px;
+
+                line-height:
+                    1.5;
+
+            }
+
+
+            .main-card {
+
+                padding:
+                    20px;
+
+                border-radius:
+                    16px;
+
+            }
+
+
+            #live-result {
+
+                min-height:
+                    158px;
+
+                padding:
+                    16px;
+
+            }
+
+
+            .result {
+
+                padding:
+                    20px;
+
+                border-radius:
+                    16px;
+
+            }
+
+
+            .result h2 {
+
+                font-size:
+                    21px;
+
+            }
+
+
+            .info {
+
+                padding:
+                    14px;
+
+            }
+
+
+            .analyze-button {
+
+                padding:
+                    14px;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           SMALL MOBILE
+        ================================================== */
+
+        @media (max-width: 420px) {
+
+            .logo {
+
+                font-size:
+                    18px;
+
+            }
+
+
+            .nav-links {
+
+                gap:
+                    4px;
+
+            }
+
+
+            .nav-links a {
+
+                padding:
+                    7px 9px;
+
+                font-size:
+                    12px;
+
+            }
+
+
+            h1 {
+
+                font-size:
+                    28px;
+
+            }
+
+
+            .main-card {
+
+                padding:
+                    16px;
+
+            }
+
+
+            input[type="password"] {
+
+                padding:
+                    14px;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           REDUCED MOTION
+        ================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior:
+                    auto;
+            }
+
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <div class="logo">
+
+                🔐 <span>Password</span> Analyzer
+
+            </div>
+
+
+            <div class="nav-links">
+
+                <a href="/">
+                    🏠 Home
+                </a>
+
+                <a href="/generator">
+                    🔑 Generator
+                </a>
+
+                <a href="/history">
+                    📜 History
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==================================================
+         PAGE CONTENT
+    ================================================== -->
+
+    <div class="page-content">
+
+        <div class="container">
+
+
+            <!-- ==================================================
+                 HERO
+            ================================================== -->
+
+            <div class="hero">
+
+                <div class="hero-icon">
+                    🛡️
+                </div>
+
+
+                <h1>
+                    Password Security Analyzer
+                </h1>
+
+
+                <p class="subtitle">
+                    Analyze your password strength,
+                    security and vulnerabilities
+                </p>
+
+            </div>
+
+
+            <!-- ==================================================
+                 MAIN CARD
+            ================================================== -->
+
+            <div class="main-card">
+
+                <form
+                    action="/analyze"
+                    method="POST"
+                    id="analyze-form"
+                >
+
+                    <label for="password">
+
+                        🔑 Enter Password
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password..."
+                            required
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         REAL-TIME ANALYSIS
+                    ================================================== -->
+
+                    <div id="live-result">
+
+                        <div id="live-content">
+
+                            <strong>
+                                ⚡ Real-Time Analysis
+                            </strong>
+
+                            <p>
+                                Start typing your password
+                                to see live security analysis.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="analyze-button"
+                        id="analyze-button"
+                    >
+
+                        🔍 Analyze Password
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- ==================================================
+                 SERVER RESULT
+            ================================================== -->
+
+            <div id="result-container">
+
+                {% if strength %}
+
+                <div class="result">
+
+                    <h2>
+                        📊 Analysis Result
+                    </h2>
+
+
+                    <!-- STRENGTH -->
+
+                    <div class="info">
+
+                        <strong>
+                            Password Strength:
+                        </strong>
+
+                        {{ strength }}
+
+                    </div>
+
+
+                    <!-- SECURITY SCORE -->
+
+                    <div class="info">
+
+                        <strong>
+                            Security Score:
+                        </strong>
+
+                        {{ score }}/6
+
+                    </div>
+
+
+                    <!-- LENGTH -->
+
+                    <div class="info">
+
+                        <strong>
+                            Password Length:
+                        </strong>
+
+                        {{ password_length }}
+
+                        characters
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         BREACH CHECK
+                    ================================================== -->
+
+                    <div class="info">
+
+                        <strong>
+                            🚨 Data Breach Check:
+                        </strong>
+
+
+                        {% if breach_result.breached == True %}
+
+                            <p class="breach-found">
+
+                                ⚠️ This password has appeared
+                                in known data breaches.
+
+                            </p>
+
+
+                            <p>
+
+                                It has been seen approximately
+
+                                <strong>
+
+                                    {{ "{:,}".format(
+                                        breach_result.count
+                                    ) }}
+
+                                </strong>
+
+                                times.
+
+                            </p>
+
+
+                            <p>
+
+                                ❌ You should choose
+                                a different password.
+
+                            </p>
+
+
+                        {% elif breach_result.breached == False %}
+
+                            <p class="breach-safe">
+
+                                ✅ This password was not found
+                                in the checked breach database.
+
+                            </p>
+
+
+                            <p>
+
+                                This does not guarantee that
+                                the password is completely safe.
+
+                            </p>
+
+
+                        {% else %}
+
+                            <p class="breach-error">
+
+                                ⚠️ Unable to perform the breach
+                                check right now.
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         COMMON PASSWORD
+                    ================================================== -->
+
+                    <div class="info">
+
+                        <strong>
+                            🔎 Common Password Check:
+                        </strong>
+
+
+                        {% if common_password %}
+
+                            <p class="common-warning">
+
+                                ⚠️ This is a commonly used password.
+
+                            </p>
+
+
+                            <p>
+
+                                Please choose a more unique password.
+
+                            </p>
+
+
+                        {% else %}
+
+                            <p class="breach-safe">
+
+                                ✅ This password is not present
+                                in our common password list.
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         REUSE CHECK
+                    ================================================== -->
+
+                    <div class="info">
+
+                        <strong>
+                            🔁 Password Reuse Check:
+                        </strong>
+
+
+                        {% if password_reused %}
+
+                            <p class="reuse-warning">
+
+                                ⚠️ This password has been used before.
+
+                            </p>
+
+
+                            <p>
+
+                                For better security, avoid
+                                reusing passwords.
+
+                            </p>
+
+
+                        {% else %}
+
+                            <p class="reuse-safe">
+
+                                ✅ This password has not been
+                                used before in your saved history.
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         EXPIRY
+                    ================================================== -->
+
+                    <div class="info">
+
+                        <strong>
+                            ⏰ Password Expiry:
+                        </strong>
+
+
+                        {% if password_expired %}
+
+                            <p class="expiry-warning">
+
+                                ⚠️ This password has expired.
+
+                            </p>
+
+
+                            <p>
+
+                                🔄 Please generate a new password
+                                for better security.
+
+                            </p>
+
+
+                        {% elif expiry_date %}
+
+                            <p class="expiry-safe">
+
+                                ✅ This password is currently active.
+
+                            </p>
+
+
+                            <p class="expiry-info">
+
+                                Password expiry date:
+
+                                <strong>
+                                    {{ expiry_date }}
+                                </strong>
+
+                            </p>
+
+
+                            <p class="expiry-info">
+
+                                🔔 Remember to change your password
+                                after the expiry date.
+
+                            </p>
+
+
+                        {% else %}
+
+                            <p class="expiry-info">
+
+                                ℹ️ This password is not currently
+                                present in password history.
+
+                            </p>
+
+
+                            <p>
+
+                                Generate a password from the
+                                Generator to enable expiry tracking.
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         SMART SUGGESTIONS
+                    ================================================== -->
+
+                    <div class="info">
+
+                        <strong>
+                            💡 Smart Suggestions:
+                        </strong>
+
+
+                        <ul>
+
+                            {% for suggestion in suggestions %}
+
+                                <li>
+                                    {{ suggestion }}
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="footer">
+
+                🔐 Password Analyzer • Secure Password Practices
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
+
+    <script>
+
+        /* ==================================================
+           ELEMENTS
+        ================================================== */
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const liveContent =
+            document.getElementById("live-content");
+
+        const analyzeForm =
+            document.getElementById("analyze-form");
+
+        const analyzeButton =
+            document.getElementById("analyze-button");
+
+        const resultContainer =
+            document.getElementById("result-container");
+
+
+        /* ==================================================
+           REAL-TIME ANALYSIS
+           Debounced + stable layout
+        ================================================== */
+
+        let liveTimer = null;
+
+
+        function updateLiveAnalysis() {
+
+            const password =
+                passwordInput.value;
+
+            const length =
+                password.length;
+
+            let score = 0;
+
+
+            if (length >= 8) {
+                score++;
+            }
+
+
+            if (length >= 12) {
+                score++;
+            }
+
+
+            if (/[A-Z]/.test(password)) {
+                score++;
+            }
+
+
+            if (/[a-z]/.test(password)) {
+                score++;
+            }
+
+
+            if (/[0-9]/.test(password)) {
+                score++;
+            }
+
+
+            if (/[^A-Za-z0-9]/.test(password)) {
+                score++;
+            }
+
+
+            let strength =
+                "Weak";
+
+            let percentage =
+                25;
+
+            let barColor =
+                "#ef4444";
+
+
+            if (score <= 2) {
+
+                strength =
+                    "Weak";
+
+                percentage =
+                    25;
+
+                barColor =
+                    "#ef4444";
+
+            }
+
+            else if (score <= 4) {
+
+                strength =
+                    "Medium";
+
+                percentage =
+                    50;
+
+                barColor =
+                    "#f59e0b";
+
+            }
+
+            else if (score === 5) {
+
+                strength =
+                    "Strong";
+
+                percentage =
+                    75;
+
+                barColor =
+                    "#22c55e";
+
+            }
+
+            else {
+
+                strength =
+                    "Very Strong";
+
+                percentage =
+                    100;
+
+                barColor =
+                    "#facc15";
+
+            }
+
+
+            if (password.length === 0) {
+
+                liveContent.innerHTML = `
+
+                    <strong>
+                        ⚡ Real-Time Analysis
+                    </strong>
+
+                    <p>
+                        Start typing your password
+                        to see live security analysis.
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            liveContent.innerHTML = `
+
+                <strong>
+                    ⚡ Real-Time Analysis
+                </strong>
+
+                <p>
+                    📏 Length:
+
+                    <strong>
+                        ${length}
+                    </strong>
+
+                    characters
+                </p>
+
+
+                <p>
+                    📊 Score:
+
+                    <strong>
+                        ${score}/6
+                    </strong>
+                </p>
+
+
+                <p class="strength-text">
+
+                    🔐 Strength:
+
+                    <strong>
+                        ${strength}
+                    </strong>
+
+                </p>
+
+
+                <div class="strength-meter">
+
+                    <div
+                        class="strength-bar"
+                        style="
+                            width: ${percentage}%;
+                            background: ${barColor};
+                            box-shadow:
+                                0 0 12px ${barColor};
+                        "
+                    ></div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        passwordInput.addEventListener(
+            "input",
+            function () {
+
+                clearTimeout(
+                    liveTimer
+                );
+
+
+                liveTimer =
+                    setTimeout(
+                        updateLiveAnalysis,
+                        35
+                    );
+
+            }
+        );
+
+
+        /* ==================================================
+           AJAX ANALYZE
+           Prevents full page refresh
+        ================================================== */
+
+        if (analyzeForm) {
+
+            analyzeForm.addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    if (
+                        analyzeButton.classList.contains(
+                            "loading"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    const originalText =
+                        analyzeButton.innerHTML;
+
+
+                    analyzeButton.classList.add(
+                        "loading"
+                    );
+
+
+                    analyzeButton.innerHTML = `
+
+                        <span
+                            class="button-spinner"
+                        ></span>
+
+                        Analyzing...
+
+                    `;
+
+
+                    const scrollPosition =
+                        window.scrollY;
+
+
+                    try {
+
+                        const formData =
+                            new FormData(
+                                analyzeForm
+                            );
+
+
+                        const response =
+                            await fetch(
+                                analyzeForm.action,
+                                {
+                                    method:
+                                        "POST",
+
+                                    body:
+                                        formData,
+
+                                    headers: {
+                                        "X-Requested-With":
+                                            "XMLHttpRequest"
+                                    }
+                                }
+                            );
+
+
+                        if (!response.ok) {
+                            throw new Error(
+                                "Analysis failed"
+                            );
+                        }
+
+
+                        const html =
+                            await response.text();
+
+
+                        const parser =
+                            new DOMParser();
+
+
+                        const documentResult =
+                            parser.parseFromString(
+                                html,
+                                "text/html"
+                            );
+
+
+                        const newResult =
+                            documentResult.querySelector(
+                                ".result"
+                            );
+
+
+                        if (newResult) {
+
+                            resultContainer.innerHTML =
+                                "";
+
+                            resultContainer.appendChild(
+                                newResult
+                            );
+
+
+                            newResult.classList.add(
+                                "result-updated"
+                            );
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    window.scrollTo(
+                                        0,
+                                        scrollPosition
+                                    );
+
+                                }
+                            );
+
+                        }
+
+
+                    }
+
+                    catch (error) {
+
+                        /*
+                            Fallback:
+                            if AJAX fails,
+                            normal form submit.
+                        */
+
+                        analyzeForm.submit();
+
+                        return;
+
+                    }
+
+                    finally {
+
+                        analyzeButton.classList.remove(
+                            "loading"
+                        );
+
+
+                        analyzeButton.innerHTML =
+                            originalText;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           RESULT CARD INTERACTION
+        ================================================== */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        "button"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                if (
+                    button.classList.contains(
+                        "analyze-button"
+                    )
+                ) {
+                    return;
+                }
+
+            }
+        );
+
+
+        /* ==================================================
+           MOBILE TOUCH FEEDBACK
+        ================================================== */
+
+        document.addEventListener(
+            "touchstart",
+            function (event) {
+
+                const link =
+                    event.target.closest(
+                        ".nav-links a"
+                    );
+
+
+                if (link) {
+
+                    link.style.transform =
+                        "scale(0.97)";
+
+                }
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        document.addEventListener(
+            "touchend",
+            function (event) {
+
+                const link =
+                    event.target.closest(
+                        ".nav-links a"
+                    );
+
+
+                if (link) {
+
+                    setTimeout(
+                        function () {
+
+                            link.style.transform =
+                                "";
+
+                        },
+                        120
+                    );
+
+                }
+
+            },
+            {
+                passive: true
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
