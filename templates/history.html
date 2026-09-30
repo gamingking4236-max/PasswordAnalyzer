@@ -10,14 +10,10 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Password History</title>
+    <title>Password History | Password Analyzer</title>
 
 
     <style>
-
-        /* =========================
-           RESET
-        ========================= */
 
         * {
             box-sizing: border-box;
@@ -25,534 +21,730 @@
 
 
         html {
-            scroll-behavior: auto;
+            scroll-behavior: smooth;
         }
 
 
         body {
-
             margin: 0;
 
-            padding: 0;
-
             font-family:
+                "Inter",
                 "Segoe UI",
                 Arial,
                 sans-serif;
 
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(250, 204, 21, 0.08),
-                    transparent 32%
-                ),
-                radial-gradient(
-                    circle at bottom right,
-                    rgba(250, 204, 21, 0.05),
-                    transparent 30%
-                ),
-                #050505;
+            background: #f7f9fc;
 
-            color: #e5e5e5;
+            color: #172033;
 
             min-height: 100vh;
+
+            overflow-x: hidden;
         }
 
 
-        /* =========================
+        /* ==================================================
+           SVG ICONS
+        ================================================== */
+
+        .icon {
+            width: 21px;
+            height: 21px;
+
+            display: inline-block;
+
+            vertical-align: middle;
+
+            stroke: currentColor;
+
+            fill: none;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+
+            flex-shrink: 0;
+        }
+
+
+        .icon-lg {
+            width: 30px;
+            height: 30px;
+        }
+
+
+        .icon-xl {
+            width: 42px;
+            height: 42px;
+        }
+
+
+        /* ==================================================
            NAVBAR
-        ========================= */
+        ================================================== */
 
         .navbar {
-
-            background: rgba(5, 5, 5, 0.96);
-
-            border-bottom:
-                1px solid
-                rgba(250, 204, 21, 0.22);
-
-            padding: 16px 0;
-
             position: sticky;
 
             top: 0;
 
-            z-index: 100;
+            z-index: 1000;
 
-            backdrop-filter: blur(10px);
+            background:
+                rgba(255, 255, 255, 0.94);
+
+            border-bottom:
+                1px solid
+                #e7ebf2;
+
+            backdrop-filter:
+                blur(14px);
+
+            -webkit-backdrop-filter:
+                blur(14px);
+
+            box-shadow:
+                0 2px 18px
+                rgba(20, 35, 60, 0.05);
         }
 
 
         .nav-container {
-
             width: 92%;
 
-            max-width: 1100px;
+            max-width: 1120px;
 
             margin: auto;
 
-            display: flex;
+            min-height: 70px;
 
-            justify-content: space-between;
+            display: flex;
 
             align-items: center;
 
-            gap: 20px;
+            justify-content: space-between;
         }
 
 
         .logo {
+            display: flex;
 
-            color: white;
+            align-items: center;
 
-            font-size: 22px;
+            gap: 10px;
 
-            font-weight: 800;
+            color: #172033;
+
+            font-size: 19px;
+
+            font-weight: 750;
 
             white-space: nowrap;
         }
 
 
-        .logo span {
+        .logo-icon {
+            width: 38px;
+            height: 38px;
 
-            color: #facc15;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #155eef;
+
+            background: #eef4ff;
+
+            border:
+                1px solid
+                #dbe7ff;
+
+            border-radius: 10px;
+        }
+
+
+        .logo span {
+            color: #155eef;
         }
 
 
         .nav-links {
-
             display: flex;
 
-            gap: 8px;
+            align-items: center;
+
+            gap: 5px;
         }
 
 
         .nav-links a {
+            display: flex;
 
-            color: #a3a3a3;
+            align-items: center;
+
+            gap: 7px;
+
+            color: #5c6678;
 
             text-decoration: none;
 
-            padding: 10px 15px;
+            font-size: 14px;
 
-            border-radius: 9px;
+            font-weight: 600;
 
-            font-size: 15px;
+            padding: 9px 13px;
+
+            border-radius: 8px;
 
             transition:
-                0.25s ease;
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
         }
 
 
         .nav-links a:hover {
+            color: #155eef;
 
-            background:
-                rgba(
-                    250,
-                    204,
-                    21,
-                    0.10
-                );
+            background: #f0f5ff;
 
-            color: #facc15;
-
-            transform: translateY(-1px);
+            transform:
+                translateY(-1px);
         }
 
 
-        .nav-links a[href="/history"] {
+        .nav-links a.active {
+            color: #155eef;
 
-            background: #facc15;
-
-            color: #050505;
-
-            font-weight: 800;
+            background: #eef4ff;
         }
 
 
-        .nav-links a[href="/history"]:hover {
-
-            background: #fde047;
-
-            color: #050505;
-        }
-
-
-        /* =========================
-           MAIN CONTAINER
-        ========================= */
+        /* ==================================================
+           MAIN
+        ================================================== */
 
         .container {
-
             width: 92%;
 
-            max-width: 900px;
+            max-width: 1050px;
 
-            margin: 50px auto;
+            margin: 0 auto;
+
+            padding-top: 55px;
+
+            padding-bottom: 45px;
         }
 
 
-        /* =========================
+        /* ==================================================
            HERO
-        ========================= */
+        ================================================== */
 
         .hero {
-
             text-align: center;
 
-            margin-bottom: 35px;
+            margin-bottom: 38px;
         }
 
 
         .hero-icon {
+            width: 68px;
+            height: 68px;
 
-            font-size: 48px;
+            margin:
+                0 auto 18px;
 
-            margin-bottom: 8px;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #155eef;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f2f6ff,
+                    #e8f0ff
+                );
+
+            border:
+                1px solid
+                #d7e4ff;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 24px
+                rgba(21, 94, 239, 0.08);
         }
 
 
         h1 {
-
             margin: 0;
 
-            color: #facc15;
+            color: #172033;
 
-            font-size: 40px;
+            font-size: 38px;
 
-            font-weight: 800;
+            line-height: 1.2;
 
-            letter-spacing: -0.5px;
+            font-weight: 750;
+
+            letter-spacing: -0.8px;
         }
 
 
         .subtitle {
+            max-width: 620px;
 
-            color: #8f8f8f;
+            margin:
+                12px auto 0;
+
+            color: #6b7485;
 
             font-size: 16px;
 
-            margin-top: 10px;
-
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
 
-        /* =========================
-           HISTORY ITEM
-        ========================= */
+        /* ==================================================
+           HISTORY CARD
+        ================================================== */
 
-        .item {
-
-            padding: 24px;
-
-            margin: 18px 0;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #111111,
-                    #090909
-                );
+        .history-card {
+            background: #ffffff;
 
             border:
                 1px solid
-                rgba(250, 204, 21, 0.22);
+                #e3e8f0;
 
             border-radius: 16px;
 
-            box-shadow:
-                0 15px 35px
-                rgba(0, 0, 0, 0.35);
+            padding: 30px;
 
-            transition:
-                transform 0.25s ease,
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
+            box-shadow:
+                0 8px 30px
+                rgba(25, 45, 75, 0.06);
         }
 
 
-        .item:hover {
+        /* ==================================================
+           CARD HEADER
+        ================================================== */
 
-            transform: translateY(-3px);
+        .history-header {
+            display: flex;
 
-            border-color:
-                rgba(250, 204, 21, 0.45);
+            align-items: center;
 
-            box-shadow:
-                0 18px 40px
-                rgba(
-                    250,
-                    204,
-                    21,
-                    0.07
-                );
+            gap: 12px;
+
+            margin-bottom: 25px;
         }
 
 
-        /* =========================
-           PASSWORD TYPE
-        ========================= */
+        .history-header-icon {
+            width: 44px;
+            height: 44px;
 
-        .type {
+            display: flex;
 
-            color: #facc15;
+            align-items: center;
 
-            font-weight: 800;
+            justify-content: center;
+
+            color: #155eef;
+
+            background: #eef4ff;
+
+            border:
+                1px solid
+                #dbe7ff;
+
+            border-radius: 11px;
+        }
+
+
+        .history-header h2 {
+            margin: 0;
+
+            color: #172033;
 
             font-size: 20px;
 
-            margin-bottom: 16px;
-
-            padding-bottom: 14px;
-
-            border-bottom:
-                1px solid
-                rgba(250, 204, 21, 0.14);
+            font-weight: 700;
         }
 
 
-        /* =========================
-           DATE
-        ========================= */
+        .history-header p {
+            margin:
+                4px 0 0;
 
-        .date,
-        .expiry {
+            color: #7a8495;
 
-            color: #a3a3a3;
-
-            font-size: 14px;
-
-            margin: 10px 0;
-
-            line-height: 1.6;
+            font-size: 13px;
         }
 
 
-        .date strong,
-        .expiry strong {
-
-            color: #e5e5e5;
-        }
-
-
-        .expiry-date {
-
-            color: #d4d4d4;
-
-            word-break: break-word;
-        }
-
-
-        /* =========================
-           STATUS
-        ========================= */
-
-        .expiry-status {
-
-            margin-top: 14px;
-
-            padding-top: 4px;
-        }
-
-
-        .active {
-
-            color: #4ade80;
-
-            font-weight: 800;
-
-            padding: 8px 12px;
-
-            display: inline-block;
-
-            background:
-                rgba(
-                    74,
-                    222,
-                    128,
-                    0.08
-                );
-
-            border:
-                1px solid
-                rgba(
-                    74,
-                    222,
-                    128,
-                    0.20
-                );
-
-            border-radius: 8px;
-        }
-
-
-        .expired {
-
-            color: #f87171;
-
-            font-weight: 800;
-
-            padding: 8px 12px;
-
-            display: inline-block;
-
-            background:
-                rgba(
-                    248,
-                    113,
-                    113,
-                    0.08
-                );
-
-            border:
-                1px solid
-                rgba(
-                    248,
-                    113,
-                    113,
-                    0.20
-                );
-
-            border-radius: 8px;
-        }
-
-
-        /* =========================
-           SECURITY BOX
-        ========================= */
-
-        .security {
-
-            margin-top: 20px;
-
-            padding: 16px;
-
-            background:
-                #080808;
-
-            border:
-                1px solid
-                rgba(
-                    250,
-                    204,
-                    21,
-                    0.18
-                );
-
-            border-radius: 10px;
-
-            color: #8f8f8f;
-
-            font-size: 14px;
-
-            line-height: 1.8;
-        }
-
-
-        .security strong {
-
-            color: #facc15;
-        }
-
-
-        /* =========================
+        /* ==================================================
            EMPTY HISTORY
-        ========================= */
+        ================================================== */
 
-        .empty {
-
+        .empty-history {
             text-align: center;
 
-            padding: 55px 20px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #111111,
-                    #090909
-                );
+            padding:
+                55px 20px;
 
             border:
-                1px solid
-                rgba(
-                    250,
-                    204,
-                    21,
-                    0.20
-                );
+                1px dashed
+                #d6dee9;
 
-            border-radius: 16px;
+            border-radius: 12px;
 
-            color: #8f8f8f;
+            background: #fafbfd;
         }
 
 
         .empty-icon {
+            width: 58px;
+            height: 58px;
 
-            font-size: 48px;
+            margin:
+                0 auto 15px;
 
-            margin-bottom: 12px;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #7b8799;
+
+            background: #f0f3f7;
+
+            border-radius: 14px;
         }
 
 
-        .empty h2 {
+        .empty-history h3 {
+            margin:
+                0 0 7px;
 
-            color: #facc15;
+            color: #3a4557;
 
-            margin: 0 0 10px;
-
-            font-size: 25px;
+            font-size: 17px;
         }
 
 
-        .empty p {
-
+        .empty-history p {
             margin: 0;
+
+            color: #7a8495;
+
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           HISTORY LIST
+        ================================================== */
+
+        .history-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .history-item {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 18px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid
+                #e1e7ef;
+
+            border-radius: 12px;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .history-item:hover {
+            background: #f4f7fb;
+
+            border-color: #cfd9e7;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* ==================================================
+           LEFT SIDE
+        ================================================== */
+
+        .history-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            min-width: 0;
+        }
+
+
+        .type-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #155eef;
+
+            background: #eef4ff;
+
+            border:
+                1px solid
+                #dbe7ff;
+
+            border-radius: 10px;
+
+            flex-shrink: 0;
+        }
+
+
+        .type-icon.passphrase {
+            color: #6b4fd3;
+
+            background: #f3efff;
+
+            border-color: #e2dafb;
+        }
+
+
+        .type-icon.analyzed {
+            color: #16803c;
+
+            background: #edf8f1;
+
+            border-color: #d7eddf;
+        }
+
+
+        .history-details {
+            min-width: 0;
+        }
+
+
+        .history-title {
+            margin: 0 0 5px;
+
+            color: #263247;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .history-date {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: #7b8595;
+
+            font-size: 12px;
+        }
+
+
+        /* ==================================================
+           RIGHT SIDE
+        ================================================== */
+
+        .expiry-section {
+            min-width: 145px;
+
+            text-align: right;
+        }
+
+
+        .expiry-label {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 5px;
+
+            margin-bottom: 5px;
+
+            color: #7b8595;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .expiry-date {
+            color: #4c586b;
+
+            font-size: 12px;
+
+            font-weight: 650;
+        }
+
+
+        /* ==================================================
+           EXPIRY STATUS
+        ================================================== */
+
+        .expiry-status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 7px;
+
+            padding:
+                4px 8px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .expiry-status.valid {
+            color: #16803c;
+
+            background: #eaf7ee;
+        }
+
+
+        .expiry-status.expired {
+            color: #c43232;
+
+            background: #fceeee;
+        }
+
+
+        /* ==================================================
+           SECURITY INFORMATION
+        ================================================== */
+
+        .security-note {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 11px;
+
+            margin-top: 18px;
+
+            padding: 15px 16px;
+
+            background: #f4f7fb;
+
+            border:
+                1px solid
+                #e0e6ef;
+
+            border-radius: 10px;
+
+            color: #687386;
+
+            font-size: 12px;
 
             line-height: 1.6;
         }
 
 
-        /* =========================
-           FOOTER
-        ========================= */
+        .security-note-icon {
+            color: #155eef;
 
-        .footer {
-
-            text-align: center;
-
-            color: #666;
-
-            font-size: 13px;
-
-            margin-top: 30px;
-
-            padding-bottom: 30px;
+            margin-top: 1px;
         }
 
 
-        /* =========================
+        .security-note strong {
+            color: #3d485b;
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        .footer {
+            padding-top: 22px;
+
+            text-align: center;
+
+            color: #8992a1;
+
+            font-size: 12px;
+        }
+
+
+        /* ==================================================
            MOBILE
-        ========================= */
+        ================================================== */
 
         @media (max-width: 700px) {
 
-            .navbar {
-
-                padding: 14px 0;
-            }
-
-
             .nav-container {
+                min-height: auto;
+
+                padding:
+                    12px 0;
 
                 flex-direction: column;
 
-                gap: 12px;
+                gap: 11px;
             }
 
 
             .nav-links {
+                width: 100%;
 
                 justify-content: center;
 
@@ -561,64 +753,59 @@
 
 
             .nav-links a {
+                font-size: 12px;
 
-                font-size: 14px;
-
-                padding: 9px 13px;
+                padding:
+                    8px 10px;
             }
 
 
             .container {
-
                 width: 94%;
 
-                margin: 35px auto;
-            }
-
-
-            .hero {
-
-                margin-bottom: 28px;
-            }
-
-
-            .hero-icon {
-
-                font-size: 42px;
+                padding-top: 38px;
             }
 
 
             h1 {
-
-                font-size: 32px;
+                font-size: 30px;
             }
 
 
             .subtitle {
-
                 font-size: 14px;
             }
 
 
-            .item {
+            .history-card {
+                padding: 20px;
 
-                padding: 18px;
-
-                margin: 15px 0;
+                border-radius: 13px;
             }
 
 
-            .type {
+            .history-item {
+                align-items: flex-start;
 
-                font-size: 18px;
+                flex-direction: column;
+
+                gap: 14px;
             }
 
 
-            .security {
+            .expiry-section {
+                width: 100%;
 
-                font-size: 13px;
+                min-width: 0;
 
-                line-height: 1.7;
+                text-align: left;
+
+                padding-left: 58px;
+            }
+
+
+            .expiry-label {
+                justify-content: flex-start;
             }
 
         }
@@ -626,29 +813,48 @@
 
         @media (max-width: 420px) {
 
-            h1 {
+            .logo {
+                font-size: 17px;
+            }
 
-                font-size: 28px;
+
+            .logo-icon {
+                width: 34px;
+                height: 34px;
             }
 
 
             .hero-icon {
-
-                font-size: 38px;
+                width: 58px;
+                height: 58px;
             }
 
 
-            .nav-links {
-
-                gap: 5px;
+            .container {
+                width: 93%;
             }
 
 
-            .nav-links a {
+            .history-card {
+                padding: 16px;
+            }
 
-                padding: 8px 10px;
 
-                font-size: 13px;
+            .history-info {
+                gap: 11px;
+            }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+
+                transition-duration: 0.01ms !important;
             }
 
         }
@@ -661,9 +867,256 @@
 <body>
 
 
-    <!-- =========================
+    <!-- ==================================================
+         SVG DEFINITIONS
+    ================================================== -->
+
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        style="display:none"
+    >
+
+        <!-- Shield Lock -->
+
+        <symbol
+            id="icon-shield-lock"
+            viewBox="0 0 24 24"
+        >
+
+            <path
+                d="M12 3L5 6v5c0 4.7 2.9 8.9 7 10 4.1-1.1 7-5.3 7-10V6l-7-3z"
+            />
+
+            <rect
+                x="8.5"
+                y="10"
+                width="7"
+                height="5.5"
+                rx="1"
+            />
+
+            <path
+                d="M10.5 10V8.8a1.5 1.5 0 013 0V10"
+            />
+
+        </symbol>
+
+
+        <!-- Key -->
+
+        <symbol
+            id="icon-key"
+            viewBox="0 0 24 24"
+        >
+
+            <circle
+                cx="8.5"
+                cy="15.5"
+                r="3.5"
+            />
+
+            <path
+                d="M11.5 13L21 3.5"
+            />
+
+            <path
+                d="M17 7l2 2"
+            />
+
+            <path
+                d="M14.5 9.5l2 2"
+            />
+
+        </symbol>
+
+
+        <!-- Home -->
+
+        <symbol
+            id="icon-home"
+            viewBox="0 0 24 24"
+        >
+
+            <path
+                d="M3 10.5L12 3l9 7.5"
+            />
+
+            <path
+                d="M5 9.5V21h14V9.5"
+            />
+
+            <path
+                d="M9 21v-6h6v6"
+            />
+
+        </symbol>
+
+
+        <!-- History -->
+
+        <symbol
+            id="icon-history"
+            viewBox="0 0 24 24"
+        >
+
+            <path
+                d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"
+            />
+
+            <path
+                d="M3 3v5h5"
+            />
+
+            <path
+                d="M12 7v5l3 2"
+            />
+
+        </symbol>
+
+
+        <!-- Lock -->
+
+        <symbol
+            id="icon-lock"
+            viewBox="0 0 24 24"
+        >
+
+            <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="2"
+            />
+
+            <path
+                d="M8 10V7a4 4 0 018 0v3"
+            />
+
+        </symbol>
+
+
+        <!-- Passphrase -->
+
+        <symbol
+            id="icon-passphrase"
+            viewBox="0 0 24 24"
+        >
+
+            <path
+                d="M4 7h16"
+            />
+
+            <path
+                d="M4 12h16"
+            />
+
+            <path
+                d="M4 17h10"
+            />
+
+            <circle
+                cx="18"
+                cy="17"
+                r="2"
+            />
+
+        </symbol>
+
+
+        <!-- Calendar -->
+
+        <symbol
+            id="icon-calendar"
+            viewBox="0 0 24 24"
+        >
+
+            <rect
+                x="4"
+                y="5"
+                width="16"
+                height="15"
+                rx="2"
+            />
+
+            <path
+                d="M8 3v4"
+            />
+
+            <path
+                d="M16 3v4"
+            />
+
+            <path
+                d="M4 9h16"
+            />
+
+        </symbol>
+
+
+        <!-- Clock -->
+
+        <symbol
+            id="icon-clock"
+            viewBox="0 0 24 24"
+        >
+
+            <circle
+                cx="12"
+                cy="12"
+                r="9"
+            />
+
+            <path
+                d="M12 7v5l3 2"
+            />
+
+        </symbol>
+
+
+        <!-- Shield -->
+
+        <symbol
+            id="icon-shield"
+            viewBox="0 0 24 24"
+        >
+
+            <path
+                d="M12 3l7 3v5c0 4.7-2.9 8.9-7 10-4.1-1.1-7-5.3-7-10V6l7-3z"
+            />
+
+            <path
+                d="M8.5 12l2.2 2.2 4.8-4.8"
+            />
+
+        </symbol>
+
+
+        <!-- Check -->
+
+        <symbol
+            id="icon-check"
+            viewBox="0 0 24 24"
+        >
+
+            <circle
+                cx="12"
+                cy="12"
+                r="9"
+            />
+
+            <path
+                d="M8 12l2.5 2.5L16 9"
+            />
+
+        </symbol>
+
+    </svg>
+
+
+    <!-- ==================================================
          NAVBAR
-    ========================= -->
+    ================================================== -->
 
     <nav class="navbar">
 
@@ -672,7 +1125,19 @@
 
             <div class="logo">
 
-                🔐
+                <div class="logo-icon">
+
+                    <svg class="icon">
+
+                        <use
+                            href="#icon-shield-lock"
+                        ></use>
+
+                    </svg>
+
+                </div>
+
+
                 <span>Password</span>
                 Analyzer
 
@@ -681,19 +1146,54 @@
 
             <div class="nav-links">
 
+
                 <a href="/">
-                    🏠 Home
+
+                    <svg class="icon">
+
+                        <use
+                            href="#icon-home"
+                        ></use>
+
+                    </svg>
+
+                    Home
+
                 </a>
 
 
                 <a href="/generator">
-                    🔑 Generator
+
+                    <svg class="icon">
+
+                        <use
+                            href="#icon-key"
+                        ></use>
+
+                    </svg>
+
+                    Generator
+
                 </a>
 
 
-                <a href="/history">
-                    📜 History
+                <a
+                    href="/history"
+                    class="active"
+                >
+
+                    <svg class="icon">
+
+                        <use
+                            href="#icon-history"
+                        ></use>
+
+                    </svg>
+
+                    History
+
                 </a>
+
 
             </div>
 
@@ -702,153 +1202,79 @@
     </nav>
 
 
-    <!-- =========================
+    <!-- ==================================================
          MAIN
-    ========================= -->
+    ================================================== -->
 
     <div class="container">
 
 
-        <!-- HERO -->
+        <!-- ==================================================
+             HERO
+        ================================================== -->
 
         <div class="hero">
 
+
             <div class="hero-icon">
 
-                📜
+                <svg class="icon icon-xl">
+
+                    <use
+                        href="#icon-history"
+                    ></use>
+
+                </svg>
 
             </div>
 
 
             <h1>
-
                 Password History
-
             </h1>
 
 
             <p class="subtitle">
-
-                Track your password security history
-
+                Review your previously generated and analyzed
+                password records securely.
             </p>
+
 
         </div>
 
 
-        <!-- =========================
-             HISTORY
-        ========================= -->
+        <!-- ==================================================
+             HISTORY CARD
+        ================================================== -->
 
-        {% if history %}
-
-
-            {% for item in history %}
+        <div class="history-card">
 
 
-            <div class="item">
+            <div class="history-header">
 
 
-                <!-- =========================
-                     PASSWORD TYPE
-                ========================== -->
+                <div class="history-header-icon">
 
-                <div class="type">
+                    <svg class="icon icon-lg">
 
+                        <use
+                            href="#icon-history"
+                        ></use>
 
-                    {% if item[2] == "generated" %}
-
-                        🔑 Generated Password
-
-
-                    {% elif item[2] == "passphrase" %}
-
-                        🧩 Passphrase
-
-
-                    {% elif item[2] == "analyzed" %}
-
-                        🔐 Analyzed Password
-
-
-                    {% else %}
-
-                        🔐 {{ item[2] }}
-
-                    {% endif %}
-
+                    </svg>
 
                 </div>
 
 
-                <!-- =========================
-                     CREATED
-                ========================== -->
+                <div>
 
-                <div class="date">
+                    <h2>
+                        Security Activity
+                    </h2>
 
-                    📅 <strong>Created:</strong>
-
-                    {{ item[3] }}
-
-                </div>
-
-
-                <!-- =========================
-                     EXPIRY
-                ========================== -->
-
-                {% if item[4] %}
-
-
-                <div class="expiry">
-
-                    ⏰ <strong>Expires:</strong>
-
-                    <span class="expiry-date">
-
-                        {{ item[4] }}
-
-                    </span>
-
-                </div>
-
-
-                <div class="expiry-status">
-
-                    Checking expiry status...
-
-                </div>
-
-
-                {% endif %}
-
-
-                <!-- =========================
-                     SECURITY
-                ========================== -->
-
-                <div class="security">
-
-                    🔐 Password is securely protected.
-
-                    <br>
-
-                    🔒
-                    <strong>SHA-256 hashing</strong>
-                    is used for password reuse
-                    and duplicate detection.
-
-                    <br>
-
-                    🛡️
-                    <strong>Fernet encryption</strong>
-                    is used for secure encrypted storage.
-
-                    <br>
-
-                    🚫 The original password is not
-                    displayed in password history.
+                    <p>
+                        Your password generation and analysis records
+                    </p>
 
                 </div>
 
@@ -856,53 +1282,296 @@
             </div>
 
 
-            {% endfor %}
+            <!-- ==================================================
+                 HISTORY CONTENT
+            ================================================== -->
+
+            {% if history %}
 
 
-        {% else %}
+            <div class="history-list">
 
 
-            <!-- =========================
-                 EMPTY HISTORY
-            ========================== -->
-
-            <div class="empty">
+                {% for item in history %}
 
 
-                <div class="empty-icon">
+                <div class="history-item">
 
-                    📭
+
+                    <!-- LEFT -->
+
+                    <div class="history-info">
+
+
+                        {% if item[2] == "generated" %}
+
+
+                        <div class="type-icon">
+
+                            <svg class="icon">
+
+                                <use
+                                    href="#icon-key"
+                                ></use>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="history-details">
+
+                            <p class="history-title">
+                                Generated Password
+                            </p>
+
+                            <div class="history-date">
+
+                                <svg class="icon">
+
+                                    <use
+                                        href="#icon-calendar"
+                                    ></use>
+
+                                </svg>
+
+                                {{ item[3] }}
+
+                            </div>
+
+                        </div>
+
+
+                        {% elif item[2] == "passphrase" %}
+
+
+                        <div
+                            class="type-icon passphrase"
+                        >
+
+                            <svg class="icon">
+
+                                <use
+                                    href="#icon-passphrase"
+                                ></use>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="history-details">
+
+                            <p class="history-title">
+                                Generated Passphrase
+                            </p>
+
+                            <div class="history-date">
+
+                                <svg class="icon">
+
+                                    <use
+                                        href="#icon-calendar"
+                                    ></use>
+
+                                </svg>
+
+                                {{ item[3] }}
+
+                            </div>
+
+                        </div>
+
+
+                        {% else %}
+
+
+                        <div
+                            class="type-icon analyzed"
+                        >
+
+                            <svg class="icon">
+
+                                <use
+                                    href="#icon-shield"
+                                ></use>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="history-details">
+
+                            <p class="history-title">
+                                Analyzed Password
+                            </p>
+
+                            <div class="history-date">
+
+                                <svg class="icon">
+
+                                    <use
+                                        href="#icon-calendar"
+                                    ></use>
+
+                                </svg>
+
+                                {{ item[3] }}
+
+                            </div>
+
+                        </div>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <!-- RIGHT -->
+
+                    <div class="expiry-section">
+
+
+                        <div class="expiry-label">
+
+                            <svg class="icon">
+
+                                <use
+                                    href="#icon-clock"
+                                ></use>
+
+                            </svg>
+
+                            Expires
+
+                        </div>
+
+
+                        <div class="expiry-date">
+
+                            {{ item[4] }}
+
+                        </div>
+
+
+                        <div
+                            class="expiry-status"
+                            data-expiry="{{ item[4] }}"
+                        >
+
+                            <svg class="icon">
+
+                                <use
+                                    href="#icon-check"
+                                ></use>
+
+                            </svg>
+
+                            Checking...
+
+                        </div>
+
+
+                    </div>
+
 
                 </div>
 
 
-                <h2>
+                {% endfor %}
 
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- ==================================================
+                 EMPTY HISTORY
+            ================================================== -->
+
+            <div class="empty-history">
+
+
+                <div class="empty-icon">
+
+                    <svg class="icon icon-lg">
+
+                        <use
+                            href="#icon-history"
+                        ></use>
+
+                    </svg>
+
+                </div>
+
+
+                <h3>
                     No Password History
-
-                </h2>
+                </h3>
 
 
                 <p>
-
-                    Generate or analyze a password
-                    to create history.
-
+                    Generate or analyze a password to create
+                    your first security record.
                 </p>
 
 
             </div>
 
 
-        {% endif %}
+            {% endif %}
 
 
-        <!-- FOOTER -->
+            <!-- ==================================================
+                 SECURITY NOTE
+            ================================================== -->
+
+            <div class="security-note">
+
+
+                <svg
+                    class="icon security-note-icon"
+                >
+
+                    <use
+                        href="#icon-shield"
+                    ></use>
+
+                </svg>
+
+
+                <div>
+
+                    <strong>
+                        Security & Privacy:
+                    </strong>
+
+                    Password history does not display your
+                    original passwords. Password hashes are used
+                    for duplicate/reuse detection, while encrypted
+                    storage is used for protected password data.
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             FOOTER
+        ================================================== -->
 
         <div class="footer">
 
-            🔐 Password Analyzer
-            • Secure Password Practices
+            Password Analyzer • Secure Password History
 
         </div>
 
@@ -910,135 +1579,104 @@
     </div>
 
 
-    <!-- =========================
-         EXPIRY STATUS
-    ========================== -->
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
 
     <script>
 
-        const expiryDates =
-            document.querySelectorAll(
-                ".expiry-date"
-            );
+
+        /* ==================================================
+           EXPIRY STATUS
+        ================================================== */
+
+        document
+            .querySelectorAll(".expiry-status")
+            .forEach(function (status) {
 
 
-        const expiryStatuses =
-            document.querySelectorAll(
-                ".expiry-status"
-            );
+                const expiry =
+                    status.dataset.expiry;
 
 
-        expiryDates.forEach(
-            function (expiryElement, index) {
+                if (!expiry) {
 
+                    status.innerHTML = `
 
-                const expiryText =
-                    expiryElement.innerText.trim();
+                        <svg class="icon">
+                            <use href="#icon-check"></use>
+                        </svg>
 
+                        Active
 
-                const expiryDate =
-                    new Date(
-                        expiryText.replace(
-                            " ",
-                            "T"
-                        )
+                    `;
+
+                    status.classList.add(
+                        "valid"
                     );
-
-
-                const currentDate =
-                    new Date();
-
-
-                const statusElement =
-                    expiryStatuses[index];
-
-
-                if (!statusElement) {
 
                     return;
 
                 }
 
 
+                const expiryDate =
+                    new Date(expiry);
+
+
+                const currentDate =
+                    new Date();
+
+
                 if (
-                    !isNaN(expiryDate.getTime())
+                    !isNaN(
+                        expiryDate.getTime()
+                    )
                     &&
                     expiryDate < currentDate
                 ) {
 
 
-                    statusElement.innerHTML = `
+                    status.innerHTML = `
 
-                        <div class="expired">
+                        <svg class="icon">
+                            <use href="#icon-clock"></use>
+                        </svg>
 
-                            ⚠️ Password has expired
-
-                        </div>
+                        Expired
 
                     `;
 
 
-                }
+                    status.classList.add(
+                        "expired"
+                    );
 
+
+                }
 
                 else {
 
 
-                    statusElement.innerHTML = `
+                    status.innerHTML = `
 
-                        <div class="active">
+                        <svg class="icon">
+                            <use href="#icon-check"></use>
+                        </svg>
 
-                            ✅ Password is currently active
-
-                        </div>
+                        Active
 
                     `;
 
-                }
 
-            }
-        );
-
-
-        /* =========================
-           SCROLL POSITION
-        ========================= */
-
-        window.addEventListener(
-            "load",
-            function () {
-
-                const savedScroll =
-                    sessionStorage.getItem(
-                        "passwordHistoryScrollY"
-                    );
-
-
-                if (savedScroll !== null) {
-
-                    requestAnimationFrame(
-                        function () {
-
-                            window.scrollTo(
-                                0,
-                                parseInt(
-                                    savedScroll,
-                                    10
-                                )
-                            );
-
-
-                            sessionStorage.removeItem(
-                                "passwordHistoryScrollY"
-                            );
-
-                        }
+                    status.classList.add(
+                        "valid"
                     );
 
                 }
 
-            }
-        );
+            });
+
 
     </script>
 

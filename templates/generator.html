@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Password Generator</title>
+    <title>Password Generator | Password Analyzer</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -18,749 +19,876 @@
 
         body {
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family:
+                "Inter",
+                "Segoe UI",
+                Arial,
+                sans-serif;
 
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(255, 193, 7, 0.10),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at bottom right,
-                    rgba(255, 193, 7, 0.07),
-                    transparent 35%
-                ),
-                #050505;
+            background: #f7f9fc;
 
-            color: #f5f5f5;
+            color: #172033;
+
             min-height: 100vh;
+
+            overflow-x: hidden;
         }
 
-        /* =========================
+
+        /* ==================================================
+           SVG ICON
+        ================================================== */
+
+        .icon {
+            width: 22px;
+            height: 22px;
+
+            display: inline-block;
+
+            vertical-align: middle;
+
+            stroke: currentColor;
+
+            fill: none;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+
+            flex-shrink: 0;
+        }
+
+
+        .icon-lg {
+            width: 30px;
+            height: 30px;
+        }
+
+
+        .icon-xl {
+            width: 42px;
+            height: 42px;
+        }
+
+
+        /* ==================================================
            NAVBAR
-        ========================== */
+        ================================================== */
 
         .navbar {
-            background: rgba(5, 5, 5, 0.96);
-            border-bottom: 1px solid rgba(255, 193, 7, 0.22);
-
-            padding: 16px 0;
-
             position: sticky;
-            top: 0;
-            z-index: 100;
 
-            backdrop-filter: blur(12px);
+            top: 0;
+
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-bottom: 1px solid #e7ebf2;
+
+            backdrop-filter: blur(14px);
+
+            -webkit-backdrop-filter: blur(14px);
+
+            box-shadow:
+                0 2px 18px
+                rgba(20, 35, 60, 0.05);
         }
+
 
         .nav-container {
             width: 92%;
-            max-width: 1100px;
+
+            max-width: 1120px;
+
             margin: auto;
 
+            min-height: 70px;
+
             display: flex;
-            justify-content: space-between;
+
             align-items: center;
+
+            justify-content: space-between;
         }
+
 
         .logo {
-            color: #ffffff;
-            font-size: 21px;
-            font-weight: 700;
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: #172033;
+
+            font-size: 19px;
+
+            font-weight: 750;
+
+            letter-spacing: -0.2px;
+
+            white-space: nowrap;
         }
 
-        .logo span {
-            color: #ffc107;
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #155eef;
+
+            background: #eef4ff;
+
+            border: 1px solid #dbe7ff;
+
+            border-radius: 10px;
         }
+
+
+        .logo span {
+            color: #155eef;
+        }
+
 
         .nav-links {
             display: flex;
-            gap: 8px;
+
+            align-items: center;
+
+            gap: 5px;
         }
 
+
         .nav-links a {
-            position: relative;
+            display: flex;
 
-            color: #bdbdbd;
+            align-items: center;
+
+            gap: 7px;
+
+            color: #5c6678;
+
             text-decoration: none;
-
-            padding: 9px 14px;
-            border-radius: 8px;
 
             font-size: 14px;
 
+            font-weight: 600;
+
+            padding: 9px 13px;
+
+            border-radius: 8px;
+
             transition:
-                color 0.25s ease,
-                background 0.25s ease,
-                transform 0.25s ease;
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
         }
 
-        .nav-links a::after {
-            content: "";
-
-            position: absolute;
-            left: 14px;
-            right: 14px;
-            bottom: 4px;
-
-            height: 2px;
-
-            background: #ffc107;
-            border-radius: 10px;
-
-            transform: scaleX(0);
-            transition: transform 0.25s ease;
-        }
 
         .nav-links a:hover {
-            background: rgba(255, 193, 7, 0.10);
-            color: #ffc107;
+            color: #155eef;
+
+            background: #f0f5ff;
 
             transform: translateY(-1px);
         }
 
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-        }
 
         .nav-links a.active {
-            background: #ffc107;
-            color: #000000;
-            font-weight: 700;
+            color: #155eef;
 
-            box-shadow:
-                0 5px 20px rgba(255, 193, 7, 0.15);
+            background: #eef4ff;
         }
 
-        .nav-links a.active::after {
-            display: none;
-        }
 
-        /* =========================
+        /* ==================================================
            MAIN
-        ========================== */
+        ================================================== */
 
         .container {
             width: 92%;
-            max-width: 850px;
 
-            margin: 50px auto;
+            max-width: 900px;
+
+            margin: 0 auto;
+
+            padding-top: 55px;
+
+            padding-bottom: 45px;
         }
 
-        /* =========================
-           SMOOTH ENTRY
-        ========================== */
 
-        .hero,
-        .card,
-        .footer {
-            animation:
-                smoothEnter
-                0.55s
-                cubic-bezier(.22,.61,.36,1)
-                both;
-        }
-
-        .hero {
-            animation-delay: 0.02s;
-        }
-
-        .card:nth-of-type(1) {
-            animation-delay: 0.08s;
-        }
-
-        .card:nth-of-type(2) {
-            animation-delay: 0.14s;
-        }
-
-        .footer {
-            animation-delay: 0.20s;
-        }
-
-        @keyframes smoothEnter {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* =========================
+        /* ==================================================
            HERO
-        ========================== */
+        ================================================== */
 
         .hero {
             text-align: center;
-            margin-bottom: 30px;
+
+            margin-bottom: 38px;
         }
+
 
         .hero-icon {
-            font-size: 50px;
-            margin-bottom: 8px;
+            width: 68px;
+            height: 68px;
 
-            filter:
-                drop-shadow(
-                    0 0 12px
-                    rgba(255, 193, 7, 0.35)
-                );
+            margin: 0 auto 18px;
 
-            animation:
-                iconFloat
-                3s
-                ease-in-out
-                infinite;
-        }
+            display: flex;
 
-        @keyframes iconFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
+            align-items: center;
 
-            50% {
-                transform: translateY(-4px);
-            }
-        }
+            justify-content: center;
 
-        h1 {
-            margin: 0;
-
-            color: #ffc107;
-
-            font-size: 40px;
-            font-weight: 800;
-        }
-
-        .subtitle {
-            color: #9e9e9e;
-            font-size: 17px;
-            margin-top: 10px;
-        }
-
-        /* =========================
-           CARD
-        ========================== */
-
-        .card {
-            position: relative;
-            overflow: hidden;
+            color: #155eef;
 
             background:
                 linear-gradient(
                     145deg,
-                    rgba(22, 22, 22, 0.96),
-                    rgba(10, 10, 10, 0.96)
+                    #f2f6ff,
+                    #e8f0ff
                 );
 
             border:
                 1px solid
-                rgba(255, 193, 7, 0.20);
+                #d7e4ff;
 
             border-radius: 18px;
 
+            box-shadow:
+                0 8px 24px
+                rgba(21, 94, 239, 0.08);
+        }
+
+
+        h1 {
+            margin: 0;
+
+            color: #172033;
+
+            font-size: 38px;
+
+            line-height: 1.2;
+
+            font-weight: 750;
+
+            letter-spacing: -0.8px;
+        }
+
+
+        .subtitle {
+            max-width: 620px;
+
+            margin: 12px auto 0;
+
+            color: #6b7485;
+
+            font-size: 16px;
+
+            line-height: 1.65;
+        }
+
+
+        /* ==================================================
+           GENERATOR CARD
+        ================================================== */
+
+        .generator-card {
+            position: relative;
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #e3e8f0;
+
+            border-radius: 16px;
+
             padding: 30px;
-            margin-bottom: 25px;
+
+            margin-bottom: 24px;
 
             box-shadow:
-                0 20px 50px
-                rgba(0, 0, 0, 0.45);
+                0 8px 30px
+                rgba(25, 45, 75, 0.06);
 
             transition:
-                border-color 0.3s ease,
-                box-shadow 0.3s ease,
-                transform 0.3s ease;
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
         }
 
-        .card::before {
-            content: "";
 
-            position: absolute;
-
-            top: 0;
-            left: -120%;
-
-            width: 80%;
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(255, 193, 7, 0.7),
-                    transparent
-                );
-
-            transition: left 0.7s ease;
-        }
-
-        .card:hover::before {
-            left: 130%;
-        }
-
-        .card:hover {
-            border-color:
-                rgba(255, 193, 7, 0.40);
+        .generator-card:hover {
+            border-color: #d6dfed;
 
             box-shadow:
-                0 22px 55px
-                rgba(0, 0, 0, 0.55);
-
-            transform: translateY(-2px);
+                0 12px 35px
+                rgba(25, 45, 75, 0.08);
         }
 
-        .card h2 {
-            margin-top: 0;
-            color: #ffc107;
-        }
 
-        .description {
-            color: #999999;
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
             margin-bottom: 25px;
-            line-height: 1.6;
         }
 
-        /* =========================
-           OPTIONS
-        ========================== */
 
-        .option {
-            margin: 18px 0;
+        .section-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #155eef;
+
+            background: #eef4ff;
+
+            border:
+                1px solid
+                #dbe7ff;
+
+            border-radius: 11px;
         }
+
+
+        .section-title {
+            margin: 0;
+
+            color: #172033;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+
+        .section-description {
+            margin: 4px 0 0;
+
+            color: #7a8495;
+
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           FORM
+        ================================================== */
+
+        .field-group {
+            margin-bottom: 21px;
+        }
+
 
         label {
-            color: #f5f5f5;
-            font-weight: 600;
+            display: block;
+
+            color: #313b4d;
+
+            font-size: 14px;
+
+            font-weight: 650;
+
+            margin-bottom: 9px;
         }
+
 
         input[type="number"] {
             width: 100%;
 
-            padding: 14px;
-            margin-top: 8px;
+            height: 48px;
 
-            background: #080808;
-            color: #ffffff;
+            padding: 0 14px;
 
-            border: 1px solid #333333;
-            border-radius: 10px;
+            background: #ffffff;
 
-            font-size: 16px;
+            color: #172033;
+
+            border:
+                1px solid
+                #d9e0ea;
+
+            border-radius: 9px;
 
             outline: none;
 
+            font-size: 15px;
+
             transition:
-                border-color 0.25s ease,
-                box-shadow 0.25s ease,
-                transform 0.2s ease;
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
+
 
         input[type="number"]:hover {
-            border-color: #555555;
+            border-color: #b9c5d6;
         }
 
+
         input[type="number"]:focus {
-            border-color: #ffc107;
+            border-color: #155eef;
 
             box-shadow:
                 0 0 0 3px
-                rgba(255, 193, 7, 0.12),
-                0 0 20px
-                rgba(255, 193, 7, 0.06);
-
-            transform: translateY(-1px);
+                rgba(21, 94, 239, 0.10);
         }
 
-        /* =========================
-           CHECKBOX
-        ========================== */
 
-        .checkbox {
-            margin: 15px 0;
-            padding: 13px;
+        /* ==================================================
+           OPTIONS
+        ================================================== */
 
-            background: #0b0b0b;
+        .options {
+            display: grid;
 
-            border: 1px solid #292929;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .checkbox-option {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 12px 13px;
+
+            margin: 0;
+
+            background: #f8fafc;
+
+            border:
+                1px solid
+                #e3e8f0;
+
             border-radius: 9px;
 
+            color: #4e596b;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
             transition:
-                border-color 0.25s ease,
-                background 0.25s ease,
-                transform 0.2s ease;
+                background 0.2s ease,
+                border-color 0.2s ease;
         }
 
-        .checkbox:hover {
-            border-color:
-                rgba(255, 193, 7, 0.35);
 
-            background:
-                rgba(255, 193, 7, 0.035);
+        .checkbox-option:hover {
+            background: #f1f5fb;
 
-            transform: translateX(2px);
+            border-color: #cbd6e5;
         }
 
-        .checkbox input {
-            margin-right: 8px;
-            accent-color: #ffc107;
+
+        .checkbox-option input {
+            width: 16px;
+            height: 16px;
+
+            margin: 0;
+
+            accent-color: #155eef;
+
             cursor: pointer;
         }
 
-        .checkbox label {
-            font-weight: 500;
-            color: #cccccc;
-            cursor: pointer;
-        }
 
-        /* =========================
+        /* ==================================================
            BUTTON
-        ========================== */
+        ================================================== */
 
-        button {
-            position: relative;
-            overflow: hidden;
-
+        .generate-button {
             width: 100%;
 
-            padding: 14px;
-            margin-top: 18px;
+            height: 49px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            margin-top: 7px;
 
             border: none;
-            border-radius: 10px;
+
+            border-radius: 9px;
 
             background:
                 linear-gradient(
                     135deg,
-                    #ffc107,
-                    #ffb300
+                    #155eef,
+                    #174fc4
                 );
 
-            color: #000000;
+            color: #ffffff;
 
-            font-size: 16px;
+            font-size: 14px;
+
             font-weight: 700;
 
             cursor: pointer;
 
+            box-shadow:
+                0 6px 16px
+                rgba(21, 94, 239, 0.16);
+
             transition:
-                transform 0.22s ease,
-                box-shadow 0.22s ease,
-                filter 0.22s ease;
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
         }
 
-        button::before {
-            content: "";
 
-            position: absolute;
-
-            top: 0;
-            left: -120%;
-
-            width: 70%;
-            height: 100%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(255,255,255,0.35),
-                    transparent
-                );
-
-            transform: skewX(-20deg);
-
-            transition: left 0.6s ease;
-        }
-
-        button:hover::before {
-            left: 140%;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
+        .generate-button:hover {
+            transform: translateY(-1px);
 
             box-shadow:
-                0 10px 28px
-                rgba(255, 193, 7, 0.25);
-
-            filter: brightness(1.04);
+                0 9px 22px
+                rgba(21, 94, 239, 0.22);
         }
 
-        button:active {
-            transform:
-                translateY(1px)
-                scale(0.99);
+
+        .generate-button:active {
+            transform: translateY(0);
         }
 
-        button.loading {
+
+        .generate-button.loading {
+            opacity: 0.7;
+
             pointer-events: none;
-            opacity: 0.82;
         }
 
-        .spinner {
-            display: inline-block;
 
-            width: 15px;
-            height: 15px;
+        /* ==================================================
+           RESULT AREA
+        ================================================== */
 
-            margin-right: 8px;
-
-            border:
-                2px solid
-                rgba(0,0,0,0.25);
-
-            border-top-color: #000000;
-
-            border-radius: 50%;
-
-            vertical-align: -2px;
-
-            animation:
-                spin
-                0.7s
-                linear
-                infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* =========================
-           GENERATED AREA
-        ========================== */
-
-        #generated-area {
+        .result-area {
             min-height: 0;
         }
 
+
         .password-box {
-            margin-top: 25px;
+            margin-top: 22px;
 
             padding: 20px;
 
-            background: #080808;
+            background: #f8fafc;
 
             border:
                 1px solid
-                rgba(255, 193, 7, 0.22);
+                #dfe6ef;
 
             border-radius: 12px;
 
             animation:
                 resultReveal
-                0.42s
-                cubic-bezier(.22,.61,.36,1)
-                both;
+                0.35s
+                ease both;
         }
 
+
         @keyframes resultReveal {
+
             from {
                 opacity: 0;
+
                 transform:
-                    translateY(8px)
-                    scale(0.99);
+                    translateY(7px);
             }
 
             to {
                 opacity: 1;
+
                 transform:
-                    translateY(0)
-                    scale(1);
+                    translateY(0);
             }
+
         }
+
 
         .password-box h2 {
-            margin-top: 0;
-            color: #ffc107;
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin: 0 0 14px;
+
+            color: #263247;
+
+            font-size: 17px;
+
+            font-weight: 700;
         }
+
+
+        .result-heading-icon {
+            color: #16803c;
+        }
+
 
         .generated-password {
-            margin-top: 15px;
-
-            background: #111111;
-
-            border: 1px solid #3a3a3a;
-
-            padding: 17px;
-
-            border-radius: 10px;
-
             word-break: break-all;
 
-            font-size: 18px;
-            font-weight: 600;
+            padding: 15px;
 
-            color: #ffc107;
+            background: #ffffff;
 
-            text-align: center;
+            border:
+                1px solid
+                #d9e0ea;
+
+            border-radius: 9px;
+
+            color: #172033;
+
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
+            font-size: 15px;
+
+            line-height: 1.6;
 
             box-shadow:
-                inset 0 0 20px
-                rgba(255, 193, 7, 0.03);
-
-            transition:
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
+                inset 0 1px 3px
+                rgba(20, 35, 60, 0.03);
         }
 
-        .generated-password:hover {
-            border-color:
-                rgba(255, 193, 7, 0.40);
 
-            box-shadow:
-                inset 0 0 25px
-                rgba(255, 193, 7, 0.06),
-                0 0 20px
-                rgba(255, 193, 7, 0.04);
-        }
+        /* ==================================================
+           COPY BUTTON
+        ================================================== */
 
-        .expiry {
-            margin-top: 15px;
+        .copy-button {
+            width: 100%;
 
-            padding: 12px;
+            height: 44px;
 
-            background: #111111;
+            display: flex;
 
-            border: 1px solid #292929;
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            margin-top: 11px;
+
+            border:
+                1px solid
+                #cbd6e5;
 
             border-radius: 8px;
 
-            color: #999999;
+            background: #ffffff;
 
-            text-align: center;
-
-            transition:
-                border-color 0.25s ease,
-                background 0.25s ease;
-        }
-
-        .expiry:hover {
-            border-color:
-                rgba(255, 193, 7, 0.25);
-
-            background:
-                rgba(255, 193, 7, 0.025);
-        }
-
-        .expiry strong {
-            color: #4ade80;
-        }
-
-        /* =========================
-           COPY SUCCESS
-        ========================== */
-
-        .copy-success {
-            animation:
-                copyPulse
-                0.45s
-                ease;
-        }
-
-        @keyframes copyPulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(0.985);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        .footer {
-            text-align: center;
-
-            color: #666666;
+            color: #155eef;
 
             font-size: 13px;
 
-            padding-bottom: 30px;
+            font-weight: 650;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
         }
 
-        /* =========================
+
+        .copy-button:hover {
+            background: #eef4ff;
+
+            border-color: #b8c9e8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ==================================================
+           EXPIRY
+        ================================================== */
+
+        .expiry {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 12px;
+
+            color: #697487;
+
+            font-size: 12px;
+        }
+
+
+        .expiry strong {
+            color: #3c4658;
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        .footer {
+            padding-top: 5px;
+
+            text-align: center;
+
+            color: #8992a1;
+
+            font-size: 12px;
+        }
+
+
+        /* ==================================================
            MOBILE
-        ========================== */
+        ================================================== */
 
         @media (max-width: 700px) {
 
-            .navbar {
-                padding: 13px 0;
+            .nav-container {
+                min-height: auto;
+
+                padding:
+                    12px 0;
+
+                flex-direction: column;
+
+                gap: 11px;
             }
 
-            .nav-container {
-                flex-direction: column;
-                gap: 10px;
-            }
 
             .nav-links {
+                width: 100%;
+
                 justify-content: center;
+
                 flex-wrap: wrap;
             }
 
+
             .nav-links a {
-                padding: 8px 11px;
-                font-size: 13px;
+                font-size: 12px;
+
+                padding:
+                    8px 10px;
             }
+
 
             .container {
-                margin: 35px auto;
+                width: 94%;
+
+                padding-top: 38px;
             }
 
-            .card {
-                padding: 20px;
-                border-radius: 15px;
-            }
 
             h1 {
-                font-size: 32px;
+                font-size: 30px;
             }
 
-            .hero-icon {
-                font-size: 44px;
-            }
 
             .subtitle {
-                font-size: 15px;
+                font-size: 14px;
             }
 
-            .generated-password {
-                font-size: 16px;
-                padding: 14px;
+
+            .generator-card {
+                padding: 21px;
+
+                border-radius: 13px;
             }
+
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+
+            .section-title {
+                font-size: 18px;
+            }
+
         }
 
-        /* =========================
-           REDUCED MOTION
-        ========================== */
+
+        @media (max-width: 420px) {
+
+            .logo {
+                font-size: 17px;
+            }
+
+
+            .logo-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+
+            .hero-icon {
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .container {
+                width: 93%;
+            }
+
+
+            .generator-card {
+                padding: 17px;
+            }
+
+        }
+
 
         @media (prefers-reduced-motion: reduce) {
-
-            html {
-                scroll-behavior: auto;
-            }
 
             *,
             *::before,
             *::after {
                 animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
+
                 transition-duration: 0.01ms !important;
             }
+
         }
 
     </style>
@@ -769,28 +897,210 @@
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- ==================================================
+         SVG DEFINITIONS
+    ================================================== -->
+
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        style="display:none"
+    >
+
+        <!-- Shield Lock -->
+        <symbol id="icon-shield-lock" viewBox="0 0 24 24">
+
+            <path d="M12 3L5 6v5c0 4.7 2.9 8.9 7 10 4.1-1.1 7-5.3 7-10V6l-7-3z"/>
+
+            <rect
+                x="8.5"
+                y="10"
+                width="7"
+                height="5.5"
+                rx="1"
+            />
+
+            <path d="M10.5 10V8.8a1.5 1.5 0 013 0V10"/>
+
+        </symbol>
+
+
+        <!-- Key -->
+        <symbol id="icon-key" viewBox="0 0 24 24">
+
+            <circle
+                cx="8.5"
+                cy="15.5"
+                r="3.5"
+            />
+
+            <path d="M11.5 13L21 3.5"/>
+
+            <path d="M17 7l2 2"/>
+
+            <path d="M14.5 9.5l2 2"/>
+
+        </symbol>
+
+
+        <!-- Home -->
+        <symbol id="icon-home" viewBox="0 0 24 24">
+
+            <path d="M3 10.5L12 3l9 7.5"/>
+
+            <path d="M5 9.5V21h14V9.5"/>
+
+            <path d="M9 21v-6h6v6"/>
+
+        </symbol>
+
+
+        <!-- History -->
+        <symbol id="icon-history" viewBox="0 0 24 24">
+
+            <path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/>
+
+            <path d="M3 3v5h5"/>
+
+            <path d="M12 7v5l3 2"/>
+
+        </symbol>
+
+
+        <!-- Copy -->
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+
+            <rect
+                x="8"
+                y="8"
+                width="11"
+                height="12"
+                rx="2"
+            />
+
+            <path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2h2"/>
+
+        </symbol>
+
+
+        <!-- Check -->
+        <symbol id="icon-check" viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="9"
+            />
+
+            <path d="M8 12l2.5 2.5L16 9"/>
+
+        </symbol>
+
+
+        <!-- Spark -->
+        <symbol id="icon-spark" viewBox="0 0 24 24">
+
+            <path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5L12 2z"/>
+
+            <path d="M19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16z"/>
+
+        </symbol>
+
+
+        <!-- Sliders -->
+        <symbol id="icon-sliders" viewBox="0 0 24 24">
+
+            <path d="M4 6h16"/>
+
+            <path d="M4 12h16"/>
+
+            <path d="M4 18h16"/>
+
+            <circle cx="9" cy="6" r="2"/>
+
+            <circle cx="15" cy="12" r="2"/>
+
+            <circle cx="11" cy="18" r="2"/>
+
+        </symbol>
+
+
+        <!-- Clock -->
+        <symbol id="icon-clock" viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="9"
+            />
+
+            <path d="M12 7v5l3 2"/>
+
+        </symbol>
+
+    </svg>
+
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
 
     <nav class="navbar">
 
         <div class="nav-container">
 
+
             <div class="logo">
-                🔐 <span>Password</span> Analyzer
+
+                <div class="logo-icon">
+
+                    <svg class="icon">
+                        <use href="#icon-shield-lock"></use>
+                    </svg>
+
+                </div>
+
+                <span>Password</span>
+                Analyzer
+
             </div>
+
 
             <div class="nav-links">
 
                 <a href="/">
-                    🏠 Home
+
+                    <svg class="icon">
+                        <use href="#icon-home"></use>
+                    </svg>
+
+                    Home
+
                 </a>
 
-                <a href="/generator" class="active">
-                    🔑 Generator
+
+                <a
+                    href="/generator"
+                    class="active"
+                >
+
+                    <svg class="icon">
+                        <use href="#icon-key"></use>
+                    </svg>
+
+                    Generator
+
                 </a>
+
 
                 <a href="/history">
-                    📜 History
+
+                    <svg class="icon">
+                        <use href="#icon-history"></use>
+                    </svg>
+
+                    History
+
                 </a>
 
             </div>
@@ -800,163 +1110,229 @@
     </nav>
 
 
-    <!-- MAIN -->
+    <!-- ==================================================
+         MAIN CONTENT
+    ================================================== -->
 
     <div class="container">
+
 
         <!-- HERO -->
 
         <div class="hero">
 
             <div class="hero-icon">
-                🔑
+
+                <svg class="icon icon-xl">
+                    <use href="#icon-key"></use>
+                </svg>
+
             </div>
+
 
             <h1>
                 Password Generator
             </h1>
 
+
             <p class="subtitle">
-                Create strong and secure passwords
+                Create strong, unique passwords and memorable
+                passphrases for better account security.
             </p>
 
         </div>
 
 
-        <!-- PASSWORD GENERATOR -->
+        <!-- ==================================================
+             CUSTOM PASSWORD GENERATOR
+        ================================================== -->
 
-        <div class="card">
+        <div class="generator-card">
 
-            <h2>
-                🔐 Custom Password Generator
-            </h2>
 
-            <p class="description">
-                Customize the password length and
-                characters you want to include.
-            </p>
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <svg class="icon icon-lg">
+                        <use href="#icon-sliders"></use>
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="section-title">
+                        Custom Password Generator
+                    </h2>
+
+                    <p class="section-description">
+                        Configure the password according to your requirements.
+                    </p>
+
+                </div>
+
+            </div>
 
 
             <form
-                id="password-generator-form"
                 action="/generate-password"
                 method="POST"
+                id="password-generator-form"
             >
 
-                <div class="option">
 
-                    <label for="length">
+                <div class="field-group">
+
+                    <label for="password_length">
                         Password Length
                     </label>
 
                     <input
                         type="number"
-                        id="length"
+                        id="password_length"
                         name="length"
-                        min="8"
-                        max="64"
                         value="16"
+                        min="4"
+                        max="64"
                         required
                     >
 
                 </div>
 
 
-                <div class="checkbox">
+                <div class="field-group">
 
-                    <input
-                        type="checkbox"
-                        id="uppercase"
-                        name="uppercase"
-                        checked
-                    >
-
-                    <label for="uppercase">
-                        Include Uppercase Letters (A-Z)
+                    <label>
+                        Password Options
                     </label>
+
+
+                    <div class="options">
+
+
+                        <label class="checkbox-option">
+
+                            <input
+                                type="checkbox"
+                                name="use_uppercase"
+                                checked
+                            >
+
+                            Uppercase Letters
+
+                        </label>
+
+
+                        <label class="checkbox-option">
+
+                            <input
+                                type="checkbox"
+                                name="use_numbers"
+                                checked
+                            >
+
+                            Numbers
+
+                        </label>
+
+
+                        <label class="checkbox-option">
+
+                            <input
+                                type="checkbox"
+                                name="use_symbols"
+                                checked
+                            >
+
+                            Special Symbols
+
+                        </label>
+
+
+                    </div>
 
                 </div>
 
 
-                <div class="checkbox">
+                <button
+                    type="submit"
+                    class="generate-button"
+                >
 
-                    <input
-                        type="checkbox"
-                        id="numbers"
-                        name="numbers"
-                        checked
-                    >
+                    <svg class="icon">
+                        <use href="#icon-key"></use>
+                    </svg>
 
-                    <label for="numbers">
-                        Include Numbers (0-9)
-                    </label>
+                    Generate Secure Password
 
-                </div>
-
-
-                <div class="checkbox">
-
-                    <input
-                        type="checkbox"
-                        id="symbols"
-                        name="symbols"
-                        checked
-                    >
-
-                    <label for="symbols">
-                        Include Special Characters (!@#$)
-                    </label>
-
-                </div>
-
-
-                <button type="submit">
-                    🔑 Generate Password
                 </button>
 
             </form>
 
 
-            <!-- ONLY ONE GENERATED AREA -->
+            <!-- CUSTOM RESULT -->
 
-            <div id="generated-area">
+            <div
+                id="custom-result-area"
+                class="result-area"
+            >
 
-                {% if generated_password %}
+                {% if generated_password and generated_type != "passphrase" %}
 
-                    <div class="password-box">
+                <div class="password-box">
 
-                        <h2>
-                            ✨ Generated Password
-                        </h2>
+                    <h2>
 
-                        <div class="generated-password">
-                            {{ generated_password }}
-                        </div>
+                        <svg class="icon result-heading-icon">
+                            <use href="#icon-check"></use>
+                        </svg>
 
+                        Generated Password
 
-                        {% if expiry_date %}
-
-                            <div class="expiry">
-
-                                ⏰ Expires:
-
-                                <strong>
-                                    {{ expiry_date }}
-                                </strong>
-
-                            </div>
-
-                        {% endif %}
+                    </h2>
 
 
-                        <button
-                            type="button"
-                            onclick="copyPassword(this)"
-                        >
-                            📋 Copy Password
-                        </button>
+                    <div class="generated-password">
+                        {{ generated_password }}
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="copy-button"
+                        onclick="copyPassword(this)"
+                    >
+
+                        <svg class="icon">
+                            <use href="#icon-copy"></use>
+                        </svg>
+
+                        Copy Password
+
+                    </button>
+
+
+                    {% if expiry_date %}
+
+                    <div class="expiry">
+
+                        <svg class="icon">
+                            <use href="#icon-clock"></use>
+                        </svg>
+
+                        Password expiry date:
+
+                        <strong>
+                            {{ expiry_date }}
+                        </strong>
 
                     </div>
+
+                    {% endif %}
+
+                </div>
 
                 {% endif %}
 
@@ -965,27 +1341,47 @@
         </div>
 
 
-        <!-- PASSPHRASE -->
+        <!-- ==================================================
+             PASSPHRASE GENERATOR
+        ================================================== -->
 
-        <div class="card">
+        <div class="generator-card">
 
-            <h2>
-                🧩 Passphrase Generator
-            </h2>
 
-            <p class="description">
-                Generate a memorable passphrase
-                using random words.
-            </p>
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <svg class="icon icon-lg">
+                        <use href="#icon-spark"></use>
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="section-title">
+                        Passphrase Generator
+                    </h2>
+
+                    <p class="section-description">
+                        Create an easy-to-remember phrase using multiple words.
+                    </p>
+
+                </div>
+
+            </div>
 
 
             <form
-                id="passphrase-generator-form"
                 action="/generate-passphrase"
                 method="POST"
+                id="passphrase-generator-form"
             >
 
-                <div class="option">
+
+                <div class="field-group">
 
                     <label for="word_count">
                         Number of Words
@@ -995,170 +1391,529 @@
                         type="number"
                         id="word_count"
                         name="word_count"
-                        min="3"
-                        max="8"
                         value="4"
+                        min="3"
+                        max="10"
                         required
                     >
 
                 </div>
 
 
-                <button type="submit">
-                    🧩 Generate Passphrase
+                <button
+                    type="submit"
+                    class="generate-button"
+                >
+
+                    <svg class="icon">
+                        <use href="#icon-spark"></use>
+                    </svg>
+
+                    Generate Passphrase
+
                 </button>
 
             </form>
 
+
+            <!-- PASSPHRASE RESULT -->
+
+            <div
+                id="passphrase-result-area"
+                class="result-area"
+            >
+
+                {% if generated_password and generated_type == "passphrase" %}
+
+                <div class="password-box">
+
+                    <h2>
+
+                        <svg class="icon result-heading-icon">
+                            <use href="#icon-check"></use>
+                        </svg>
+
+                        Generated Passphrase
+
+                    </h2>
+
+
+                    <div class="generated-password">
+                        {{ generated_password }}
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="copy-button"
+                        onclick="copyPassword(this)"
+                    >
+
+                        <svg class="icon">
+                            <use href="#icon-copy"></use>
+                        </svg>
+
+                        Copy Passphrase
+
+                    </button>
+
+
+                    {% if expiry_date %}
+
+                    <div class="expiry">
+
+                        <svg class="icon">
+                            <use href="#icon-clock"></use>
+                        </svg>
+
+                        Passphrase expiry date:
+
+                        <strong>
+                            {{ expiry_date }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
         </div>
 
 
+        <!-- FOOTER -->
+
         <div class="footer">
-            🔐 Password Analyzer • Secure Password Practices
+            Password Analyzer • Secure Password Generation
         </div>
 
     </div>
 
 
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
+
     <script>
 
-        /* =========================================
-           GENERATE PASSWORD / PASSPHRASE
-           WITHOUT FULL PAGE RELOAD
-        ========================================== */
 
-        async function handleGeneratorSubmit(event) {
+        /* ==================================================
+           RESULT AREAS
+        ================================================== */
 
-            event.preventDefault();
-
-            const form = event.currentTarget;
-            const button = form.querySelector("button[type='submit']");
-
-            if (!button) {
-                return;
-            }
-
-            const originalText = button.innerHTML;
-
-            button.classList.add("loading");
-
-            button.innerHTML =
-                '<span class="spinner"></span> Generating...';
+        const customResultArea =
+            document.getElementById(
+                "custom-result-area"
+            );
 
 
-            const oldScroll = window.scrollY;
+        const passphraseResultArea =
+            document.getElementById(
+                "passphrase-result-area"
+            );
 
 
-            try {
+        /* ==================================================
+           CLEAR RESULTS ONLY ON REAL REFRESH
+        ================================================== */
 
-                const formData = new FormData(form);
-
-
-                const response = await fetch(
-                    form.action,
-                    {
-                        method: "POST",
-                        body: formData,
-
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    }
-                );
+        const navigationEntry =
+            performance.getEntriesByType(
+                "navigation"
+            )[0];
 
 
-                if (!response.ok) {
-                    throw new Error("Generation failed");
-                }
+        if (
+            navigationEntry &&
+            navigationEntry.type === "reload"
+        ) {
 
+            sessionStorage.removeItem(
+                "passwordAnalyzerCustomResult"
+            );
 
-                const html = await response.text();
-
-
-                const parser = new DOMParser();
-
-                const doc = parser.parseFromString(
-                    html,
-                    "text/html"
-                );
-
-
-                const newPasswordBox =
-                    doc.querySelector(".password-box");
-
-
-                const generatedArea =
-                    document.getElementById("generated-area");
-
-
-                /*
-                    IMPORTANT:
-                    Only replace generated-area.
-
-                    Never replace body.
-                    Never insert full HTML document.
-                */
-
-                if (
-                    newPasswordBox &&
-                    generatedArea
-                ) {
-
-                    generatedArea.innerHTML =
-                        newPasswordBox.outerHTML;
-
-
-                    window.scrollTo({
-                        top: oldScroll,
-                        behavior: "instant"
-                    });
-
-                }
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Unable to generate password. Please try again."
-                );
-
-            } finally {
-
-                button.classList.remove("loading");
-
-                button.innerHTML = originalText;
-
-            }
+            sessionStorage.removeItem(
+                "passwordAnalyzerPassphraseResult"
+            );
 
         }
 
 
-        document
-            .getElementById("password-generator-form")
-            .addEventListener(
-                "submit",
-                handleGeneratorSubmit
+        /* ==================================================
+           RESTORE CUSTOM RESULT
+        ================================================== */
+
+        const savedCustomResult =
+            sessionStorage.getItem(
+                "passwordAnalyzerCustomResult"
             );
 
 
-        document
-            .getElementById("passphrase-generator-form")
-            .addEventListener(
-                "submit",
-                handleGeneratorSubmit
+        if (
+            customResultArea &&
+            savedCustomResult
+        ) {
+
+            customResultArea.innerHTML =
+                savedCustomResult;
+
+        }
+
+
+        /* ==================================================
+           RESTORE PASSPHRASE RESULT
+        ================================================== */
+
+        const savedPassphraseResult =
+            sessionStorage.getItem(
+                "passwordAnalyzerPassphraseResult"
             );
 
 
-        /* =========================================
-           COPY PASSWORD
-        ========================================== */
+        if (
+            passphraseResultArea &&
+            savedPassphraseResult
+        ) {
 
-        async function copyPassword(button) {
+            passphraseResultArea.innerHTML =
+                savedPassphraseResult;
+
+        }
+
+
+        /* ==================================================
+           CUSTOM PASSWORD GENERATOR
+        ================================================== */
+
+        const customForm =
+            document.getElementById(
+                "password-generator-form"
+            );
+
+
+        if (customForm) {
+
+            customForm.addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const button =
+                        customForm.querySelector(
+                            "button[type='submit']"
+                        );
+
+
+                    const oldText =
+                        button.innerHTML;
+
+
+                    button.disabled = true;
+
+                    button.classList.add(
+                        "loading"
+                    );
+
+
+                    button.innerHTML = `
+
+                        <span>Generating...</span>
+
+                    `;
+
+
+                    const oldScroll =
+                        window.scrollY;
+
+
+                    try {
+
+                        const formData =
+                            new FormData(
+                                customForm
+                            );
+
+
+                        const response =
+                            await fetch(
+                                customForm.action,
+                                {
+                                    method: "POST",
+
+                                    body: formData,
+
+                                    headers: {
+                                        "X-Requested-With":
+                                            "XMLHttpRequest"
+                                    }
+                                }
+                            );
+
+
+                        const html =
+                            await response.text();
+
+
+                        const parser =
+                            new DOMParser();
+
+
+                        const doc =
+                            parser.parseFromString(
+                                html,
+                                "text/html"
+                            );
+
+
+                        const result =
+                            doc.querySelector(
+                                ".password-box"
+                            );
+
+
+                        if (
+                            result &&
+                            customResultArea
+                        ) {
+
+                            const resultHTML =
+                                result.outerHTML;
+
+
+                            customResultArea.innerHTML =
+                                resultHTML;
+
+
+                            sessionStorage.setItem(
+                                "passwordAnalyzerCustomResult",
+                                resultHTML
+                            );
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    window.scrollTo(
+                                        0,
+                                        oldScroll
+                                    );
+
+                                }
+                            );
+
+                        }
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Custom password generation error:",
+                            error
+                        );
+
+                    }
+
+                    finally {
+
+                        button.disabled =
+                            false;
+
+                        button.classList.remove(
+                            "loading"
+                        );
+
+                        button.innerHTML =
+                            oldText;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           PASSPHRASE GENERATOR
+        ================================================== */
+
+        const passphraseForm =
+            document.getElementById(
+                "passphrase-generator-form"
+            );
+
+
+        if (passphraseForm) {
+
+            passphraseForm.addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    const button =
+                        passphraseForm.querySelector(
+                            "button[type='submit']"
+                        );
+
+
+                    const oldText =
+                        button.innerHTML;
+
+
+                    button.disabled = true;
+
+                    button.classList.add(
+                        "loading"
+                    );
+
+
+                    button.innerHTML = `
+
+                        <span>Generating...</span>
+
+                    `;
+
+
+                    const oldScroll =
+                        window.scrollY;
+
+
+                    try {
+
+                        const formData =
+                            new FormData(
+                                passphraseForm
+                            );
+
+
+                        const response =
+                            await fetch(
+                                passphraseForm.action,
+                                {
+                                    method: "POST",
+
+                                    body: formData,
+
+                                    headers: {
+                                        "X-Requested-With":
+                                            "XMLHttpRequest"
+                                    }
+                                }
+                            );
+
+
+                        const html =
+                            await response.text();
+
+
+                        const parser =
+                            new DOMParser();
+
+
+                        const doc =
+                            parser.parseFromString(
+                                html,
+                                "text/html"
+                            );
+
+
+                        const result =
+                            doc.querySelector(
+                                ".password-box"
+                            );
+
+
+                        if (
+                            result &&
+                            passphraseResultArea
+                        ) {
+
+                            const resultHTML =
+                                result.outerHTML;
+
+
+                            passphraseResultArea.innerHTML =
+                                resultHTML;
+
+
+                            sessionStorage.setItem(
+                                "passwordAnalyzerPassphraseResult",
+                                resultHTML
+                            );
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    window.scrollTo(
+                                        0,
+                                        oldScroll
+                                    );
+
+                                }
+                            );
+
+                        }
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Passphrase generation error:",
+                            error
+                        );
+
+                    }
+
+                    finally {
+
+                        button.disabled =
+                            false;
+
+                        button.classList.remove(
+                            "loading"
+                        );
+
+                        button.innerHTML =
+                            oldText;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ==================================================
+           COPY PASSWORD / PASSPHRASE
+        ================================================== */
+
+        function copyPassword(button) {
+
+            const passwordBox =
+                button.closest(
+                    ".password-box"
+                );
+
+
+            if (!passwordBox) {
+                return;
+            }
+
 
             const passwordElement =
-                document.querySelector(
+                passwordBox.querySelector(
                     ".generated-password"
                 );
 
@@ -1172,45 +1927,48 @@
                 passwordElement.innerText.trim();
 
 
-            try {
-
-                await navigator.clipboard.writeText(
-                    password
-                );
+            if (!password) {
+                return;
+            }
 
 
-                const oldText =
-                    button.innerHTML;
+            navigator.clipboard
+                .writeText(password)
+                .then(function () {
+
+                    const oldText =
+                        button.innerHTML;
 
 
-                button.classList.add(
-                    "copy-success"
-                );
+                    button.innerHTML = `
+
+                        <svg class="icon">
+                            <use href="#icon-check"></use>
+                        </svg>
+
+                        Copied
+
+                    `;
 
 
-                button.innerHTML =
-                    "✅ Password Copied";
+                    setTimeout(
+                        function () {
 
+                            button.innerHTML =
+                                oldText;
 
-                setTimeout(function () {
-
-                    button.innerHTML =
-                        oldText;
-
-                    button.classList.remove(
-                        "copy-success"
+                        },
+                        1500
                     );
 
-                }, 1500);
+                })
+                .catch(function () {
 
+                    alert(
+                        "Unable to copy password."
+                    );
 
-            } catch (error) {
-
-                alert(
-                    "Unable to copy password."
-                );
-
-            }
+                });
 
         }
 
